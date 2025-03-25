@@ -1,5 +1,6 @@
-package com.bobby.aspect;
+package com.bobby.aspect.config;
 
+import com.bobby.aspect.aspect.ShowAspect;
 import com.bobby.aspect.shows.JayChouPerformance;
 import com.bobby.aspect.shows.SleepNoMoreDrama;
 import org.springframework.context.annotation.Bean;

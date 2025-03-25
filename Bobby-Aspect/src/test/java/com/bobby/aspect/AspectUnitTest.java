@@ -1,6 +1,7 @@
 package com.bobby.aspect;
 
 import com.bobby.aspect.shows.JayChouPerformance;
+import com.bobby.aspect.shows.ShowManager;
 import com.bobby.aspect.shows.SleepNoMoreDrama;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;

@@ -1,0 +1,35 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: bobby-BizB
+
+  rabbitmq:
+    host: 192.168.160.128 # 你的虚拟机IP
+    port: 5672 # 端口
+    virtual-host: /biz # 虚拟主机
+    username: bobby # 用户名
+    password: bobby # 密码
+
+    publisher-confirm-type: correlated # 开启publisher confirm机制，并设置confirm类型
+    publisher-returns: true # 开启publisher return机制
+
+
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://${bobby.db.host}:${bobby.db.port}/${bobby.db.name}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${bobby.db.un}
+    password: ${bobby.db.pw}
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+
+logging:
+  level:
+    com.bobby: debug

@@ -1,0 +1,34 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 1263.3330000000005,
+    "medianResTime" : 1157.0,
+    "minResTime" : 23.0,
+    "maxResTime" : 3251.0,
+    "pct1ResTime" : 2240.7,
+    "pct2ResTime" : 2598.95,
+    "pct3ResTime" : 2908.96,
+    "throughput" : 303.951367781155,
+    "receivedKBytesPerSec" : 68.27032674772036,
+    "sentKBytesPerSec" : 51.944813829787236
+  },
+  "doBizA HTTP请求" : {
+    "transaction" : "doBizA HTTP请求",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 1263.3330000000005,
+    "medianResTime" : 1157.0,
+    "minResTime" : 23.0,
+    "maxResTime" : 3251.0,
+    "pct1ResTime" : 2240.7,
+    "pct2ResTime" : 2598.95,
+    "pct3ResTime" : 2908.96,
+    "throughput" : 303.951367781155,
+    "receivedKBytesPerSec" : 68.27032674772036,
+    "sentKBytesPerSec" : 51.944813829787236
+  }
+}

@@ -1,6 +1,5 @@
-package com.bobby.aspect;
+package com.bobby.aspect.shows;
 
-import com.bobby.aspect.shows.IPerformance;
 import lombok.Data;
 
 @Data
