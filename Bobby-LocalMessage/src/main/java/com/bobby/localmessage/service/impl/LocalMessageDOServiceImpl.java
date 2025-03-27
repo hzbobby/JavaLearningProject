@@ -37,14 +37,14 @@ public class LocalMessageDOServiceImpl extends ServiceImpl<LocalMessageDOMapper,
     @Scheduled(fixedRate = 5000)
     public void retryLocalMsg() {
         log.debug("retryLocalMsg");
-        loadWaitRetryRecords().forEach(this::doAsyncInvoke);
+        loadWaitRetryRecords().forEach(localMessageDO -> {
+//            // 2. 执行异步调用
+            doAsyncInvoke(localMessageDO);
+        });
     }
 
     @Override
     public void invoke(LocalMessageDO localMessageDO, boolean async) {
-        // 1. 消息幂等性检查
-        //  防止重试的消息，再次保存进数据库
-        // TODO idempontant
         // 2. 把消息持久化。如果开启了事务，这里是与本地业务在同一个事务内的。保证了本地业务与保存消息的原子性
         save(localMessageDO);
 
@@ -104,6 +104,10 @@ public class LocalMessageDOServiceImpl extends ServiceImpl<LocalMessageDOMapper,
             invokeFail(localMessageDO, "Request snapshot is empty.");
             return;
         }
+        // 消息幂等性检查
+        // 防止重试的消息
+        // TODO idempontant
+
         // 2. 构造调用信息
         InvokeCtx ctx = JSON.parseObject(reqSnapshot, InvokeCtx.class);
 
