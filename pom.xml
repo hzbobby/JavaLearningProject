@@ -10,6 +10,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>Bobby-Aspect</module>
+        <module>Bobby-LocalMessage</module>
+        <module>Bobby-Payment</module>
+        <module>Bobby-BizA</module>
+        <module>Bobby-BizB</module>
+        <module>Bobby-Common</module>
     </modules>
 
     <properties>

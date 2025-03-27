@@ -1,6 +1,10 @@
 package com.bobby.aspect.aspect;
 
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
+
+import java.lang.reflect.Method;
 
 @Aspect
 public class ShowAspect {
@@ -21,5 +25,15 @@ public class ShowAspect {
     @AfterReturning("perform()")
     public void performAfterReturning(){
         System.out.println("After perform returning");
+    }
+
+    @Around("perform()")
+    public Object performAround(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("Around before");
+        Method method = ((MethodSignature) pjp.getSignature()).getMethod();
+        System.out.println(method.getName());
+        pjp.proceed();
+        System.out.println("Around after");
+        return null;
     }
 }

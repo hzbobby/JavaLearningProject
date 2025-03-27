@@ -3,6 +3,11 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Bobby-Aspect/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-Aspect/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-BizA/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-BizB/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-Common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-LocalMessage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-Payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

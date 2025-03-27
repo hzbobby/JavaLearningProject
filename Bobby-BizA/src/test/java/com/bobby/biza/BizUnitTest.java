@@ -15,6 +15,6 @@ public class BizUnitTest {
 
     @Test
     public void doBiz() {
-        Boolean b = bizAService.doBizA();
+        Boolean b = bizAService.doBizA().getSuccess();
     }
 }
