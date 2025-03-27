@@ -15,6 +15,8 @@
         <module>Bobby-BizA</module>
         <module>Bobby-BizB</module>
         <module>Bobby-Common</module>
+        <module>Bobby-Thread</module>
+        <module>Bobby-GlobalId</module>
     </modules>
 
     <properties>
