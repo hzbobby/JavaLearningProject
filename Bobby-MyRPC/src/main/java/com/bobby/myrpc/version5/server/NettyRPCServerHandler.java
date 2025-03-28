@@ -1,9 +1,7 @@
-package com.bobby.myrpc.version3.server;
+package com.bobby.myrpc.version5.server;
 
-import com.bobby.myrpc.version3.RPCRequest;
-import com.bobby.myrpc.version3.RPCResponse;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
+import com.bobby.myrpc.version5.RPCRequest;
+import com.bobby.myrpc.version5.RPCResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -44,7 +42,12 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RPCReques
         try {
             method = service.getClass().getMethod(request.getMethodName(), request.getParamsTypes());
             Object invoke = method.invoke(service, request.getParams());
-            return RPCResponse.success(invoke);
+            return RPCResponse.builder()
+                    .code(200)
+                    .data(invoke)
+                    .dataType(invoke.getClass())
+                    .message("OK")
+                    .build();
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             System.out.println("方法执行错误");

@@ -33,7 +33,7 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
                 return Class.forName(className);
             }
         }));
-
+        System.out.println("initChannel");
         pipeline.addLast(new NettyRPCServerHandler(serviceProvider));
     }
 }

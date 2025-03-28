@@ -10,7 +10,7 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
 /**
- * 初始化，主要负责序列化的编码解码， 需要解决netty的粘包问题
+ * 通过 handler 获取客户端的结果
  */
 public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -31,5 +31,6 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
             }
         }));
 
+        pipeline.addLast(new NettyClientHandler());
     }
 }

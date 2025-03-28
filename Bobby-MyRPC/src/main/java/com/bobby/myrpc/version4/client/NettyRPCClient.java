@@ -1,7 +1,7 @@
-package com.bobby.myrpc.version3.client;
+package com.bobby.myrpc.version4.client;
 
-import com.bobby.myrpc.version3.RPCRequest;
-import com.bobby.myrpc.version3.RPCResponse;
+import com.bobby.myrpc.version4.RPCRequest;
+import com.bobby.myrpc.version4.RPCResponse;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
