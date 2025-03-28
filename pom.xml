@@ -17,6 +17,7 @@
         <module>Bobby-Common</module>
         <module>Bobby-Thread</module>
         <module>Bobby-GlobalId</module>
+        <module>Bobby-MyRPC</module>
     </modules>
 
     <properties>
