@@ -1,9 +1,9 @@
-package com.bobby.myrpc.version5.server;
+package com.bobby.myrpc.version6.server;
 
-import com.bobby.myrpc.version5.service.IBlogService;
-import com.bobby.myrpc.version5.service.IUserService;
-import com.bobby.myrpc.version5.service.impl.BlogServiceImpl;
-import com.bobby.myrpc.version5.service.impl.UserServiceImpl;
+import com.bobby.myrpc.version6.service.IBlogService;
+import com.bobby.myrpc.version6.service.IUserService;
+import com.bobby.myrpc.version6.service.impl.BlogServiceImpl;
+import com.bobby.myrpc.version6.service.impl.UserServiceImpl;
 
 /**
  * version 3: 引入 Netty

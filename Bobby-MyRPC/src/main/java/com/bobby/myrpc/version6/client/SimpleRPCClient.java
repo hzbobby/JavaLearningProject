@@ -1,9 +1,9 @@
-package com.bobby.myrpc.version5.client;
+package com.bobby.myrpc.version6.client;
 
-import com.bobby.myrpc.version5.RPCRequest;
-import com.bobby.myrpc.version5.RPCResponse;
-import com.bobby.myrpc.version5.register.IServiceRegister;
-import com.bobby.myrpc.version5.register.ZkServiceRegister;
+import com.bobby.myrpc.version6.RPCRequest;
+import com.bobby.myrpc.version6.RPCResponse;
+import com.bobby.myrpc.version6.register.IServiceRegister;
+import com.bobby.myrpc.version6.register.ZkServiceRegister;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -1,9 +1,9 @@
-package com.bobby.myrpc.version5.client;
+package com.bobby.myrpc.version6.client;
 
-import com.bobby.myrpc.version5.domain.Blog;
-import com.bobby.myrpc.version5.domain.User;
-import com.bobby.myrpc.version5.service.IBlogService;
-import com.bobby.myrpc.version5.service.IUserService;
+import com.bobby.myrpc.version6.domain.Blog;
+import com.bobby.myrpc.version6.domain.User;
+import com.bobby.myrpc.version6.service.IBlogService;
+import com.bobby.myrpc.version6.service.IUserService;
 
 public class RPCClientMain {
     public static void main(String[] args) {

@@ -1,7 +1,7 @@
-package com.bobby.myrpc.version5.server;
+package com.bobby.myrpc.version6.server;
 
-import com.bobby.myrpc.version5.register.IServiceRegister;
-import com.bobby.myrpc.version5.register.ZkServiceRegister;
+import com.bobby.myrpc.version6.register.IServiceRegister;
+import com.bobby.myrpc.version6.register.ZkServiceRegister;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;

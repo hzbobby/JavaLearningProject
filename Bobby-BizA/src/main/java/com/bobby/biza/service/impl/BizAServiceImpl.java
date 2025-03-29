@@ -38,9 +38,9 @@ public class BizAServiceImpl extends ServiceImpl<BizAMapper, BizA> implements IB
     @Override
     public Result doBizA() {
 //      boolean res = doBizAMQLocalMsg();
-//      boolean res = doBizASync();
+      boolean res = doBizASync();
 //        boolean res = doBizAMQ();
-        boolean res = doBizAMQAop();
+//        boolean res = doBizAMQAop();
         if (!res) {
             return Result.fail("失败");
         }
@@ -74,6 +74,50 @@ public class BizAServiceImpl extends ServiceImpl<BizAMapper, BizA> implements IB
                 Result.class,
                 bizA.getId()  // 直接传递值，或者使用 Map.of("id", bizA.getId())
         );
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            log.error("远程调用 BizB 失败");
+            throw new RuntimeException("远程调用 BizB 失败");
+        }
+        log.debug("远程调用 BizB 成功");
+        Result result = response.getBody();
+        if (!result.getSuccess()) {
+            log.error("执行 bizB 失败");
+            throw new RuntimeException("执行 bizB 失败");
+        }
+        log.debug("执行 bizB 成功");
+        log.debug("执行 bizA 成功");
+        return true;
+    }
+
+    private Boolean doBizASyncMyRPC() {
+        log.debug("开始执行 BizA");
+        // 现在我们要在 A 里面调用 远程服务 B 的事务
+        // doBiz in A
+        // 假设我们现在的业务就是 new BizA 然后存到数据库
+        BizA bizA = new BizA();
+        bizA.setName("BizA_" + RandomUtil.randomString(6));
+        bizA.setValue(Integer.valueOf(RandomUtil.randomNumbers(3)));
+        boolean bizASuccess = save(bizA);
+        if (!bizASuccess) {
+            log.error("执行 bizA 失败");
+            throw new RuntimeException("执行 bizA 失败");
+        }
+        log.debug("保存 bizA 成功");
+
+        log.debug("远程调用 BizB");
+        // doBiz in B
+        // 进行远程调用
+        // 1. RestTemplate
+        ResponseEntity<Result> response = restTemplate.exchange(
+                "http://localhost:8082/biz/do/{id}",
+                HttpMethod.POST,
+                new HttpEntity<>(null),  // 或者传入合适的请求体
+                Result.class,
+                bizA.getId()  // 直接传递值，或者使用 Map.of("id", bizA.getId())
+        );
+
+
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             log.error("远程调用 BizB 失败");
