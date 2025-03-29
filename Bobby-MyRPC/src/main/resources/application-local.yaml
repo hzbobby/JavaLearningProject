@@ -1,0 +1,10 @@
+
+myrpc:
+  application:
+    name: 'test'
+  zk:
+    address: 192.168.160.128:2181
+    retry:
+      base-sleep-time-ms: 1000
+      max-retries: 3
+    session-timeout-ms: 30000

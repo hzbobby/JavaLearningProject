@@ -1,0 +1,145 @@
+{
+  "groups": [
+    {
+      "name": "myrpc.application",
+      "type": "com.bobby.myrpc.version8.config.MyRPCProperties",
+      "description": "MyRPC application base configuration",
+      "sourceType": "com.bobby.myrpc.version8.config.MyRPCProperties"
+    },
+    {
+      "name": "myrpc.zk",
+      "type": "com.bobby.myrpc.version8.config.ZkProperties",
+      "description": "Zookeeper connection and service registration configuration",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties"
+    },
+    {
+      "name": "myrpc.zk.retry",
+      "type": "com.bobby.myrpc.version8.config.ZkProperties$Retry",
+      "description": "Zookeeper client retry policy configuration",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties$Retry"
+    }
+  ],
+  "properties": [
+    {
+      "name": "myrpc.application.name",
+      "type": "java.lang.String",
+      "description": "Application name for service registration and discovery",
+      "sourceType": "com.bobby.myrpc.version8.config.MyRPCProperties",
+      "defaultValue": ""
+    },
+    {
+      "name": "myrpc.zk.address",
+      "type": "java.lang.String",
+      "description": "Zookeeper server addresses in host:port format (comma-separated for cluster)",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties",
+      "defaultValue": "localhost:2181"
+    },
+    {
+      "name": "myrpc.zk.session-timeout-ms",
+      "type": "java.lang.Integer",
+      "description": "Session timeout in milliseconds",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties",
+      "defaultValue": 30000,
+      "deprecation": {
+        "reason": "Should align with Zookeeper server tickTime configuration"
+      }
+    },
+    {
+      "name": "myrpc.zk.namespace",
+      "type": "java.lang.String",
+      "description": "Namespace prefix for isolating multiple environments",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties",
+      "defaultValue": "myrpc"
+    },
+    {
+      "name": "myrpc.zk.retry.max-retries",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of retry attempts for failed operations",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties$Retry",
+      "defaultValue": 3,
+      "deprecation": {
+        "reason": "Too many retries may cause long recovery time",
+        "replacement": "none"
+      }
+    },
+    {
+      "name": "myrpc.zk.retry.base-sleep-time-ms",
+      "type": "java.lang.Integer",
+      "description": "Initial sleep time between retries in milliseconds (exponential backoff)",
+      "sourceType": "com.bobby.myrpc.version8.config.ZkProperties$Retry",
+      "defaultValue": 1000
+    }
+  ],
+  "hints": [
+    {
+      "name": "myrpc.zk.session-timeout-ms",
+      "values": [
+        {
+          "value": 30000,
+          "description": "Default production setting (30 seconds)"
+        },
+        {
+          "value": 15000,
+          "description": "For low-latency environments"
+        },
+        {
+          "value": 60000,
+          "description": "For high-latency networks"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any",
+          "parameters": {
+            "target": "Zookeeper server tickTime * 2-20"
+          }
+        }
+      ]
+    },
+    {
+      "name": "myrpc.zk.retry.max-retries",
+      "values": [
+        {
+          "value": 3,
+          "description": "Recommended default value"
+        },
+        {
+          "value": 1,
+          "description": "For fast-fail scenarios"
+        },
+        {
+          "value": 5,
+          "description": "For unstable network environments"
+        }
+      ]
+    },
+    {
+      "name": "myrpc.zk.retry.base-sleep-time-ms",
+      "values": [
+        {
+          "value": 1000,
+          "description": "Default base sleep time"
+        },
+        {
+          "value": 500,
+          "description": "For fast recovery"
+        },
+        {
+          "value": 2000,
+          "description": "For high-latency networks"
+        }
+      ]
+    },
+    {
+      "name": "myrpc.zk.address",
+      "providers": [
+        {
+          "name": "pattern",
+          "parameters": {
+            "regex": "^([a-zA-Z0-9.-]+:\\d+,?)+$"
+          }
+        }
+      ]
+    }
+  ]
+}

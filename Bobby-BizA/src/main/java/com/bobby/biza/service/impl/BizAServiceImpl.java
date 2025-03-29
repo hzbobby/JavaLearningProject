@@ -32,6 +32,9 @@ public class BizAServiceImpl extends ServiceImpl<BizAMapper, BizA> implements IB
     private final ApplicationContext applicationContext;
 
 
+
+
+
     // 同步调用过程，并添加上事务
 
 //    @Transactional(rollbackFor = Exception.class)

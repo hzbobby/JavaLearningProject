@@ -31,3 +31,10 @@ mybatis-plus:
 logging:
   level:
     com.bobby: debug
+
+dubbo:
+  application:
+    name: consumer-app
+    qos-enable: false  # 禁用QOS服务
+  registry:
+    address: zookeeper://192.168.160.128:2181

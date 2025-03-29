@@ -14,7 +14,6 @@ spring:
     publisher-confirm-type: correlated # 开启publisher confirm机制，并设置confirm类型
     publisher-returns: true # 开启publisher return机制
 
-
   profiles:
     active: dev
   datasource:
@@ -33,3 +32,10 @@ mybatis-plus:
 logging:
   level:
     com.bobby: debug
+
+dubbo:
+  application:
+    name: provider-app
+    qos-enable: false  # 禁用QOS服务
+  registry:
+    address: zookeeper://192.168.160.128:2181
