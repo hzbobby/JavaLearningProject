@@ -18,6 +18,8 @@
         <module>Bobby-Thread</module>
         <module>Bobby-GlobalId</module>
         <module>Bobby-MyRPC</module>
+        <module>Bobby-Proxy</module>
+        <module>Bobby-RPC-Framework</module>
     </modules>
 
     <properties>

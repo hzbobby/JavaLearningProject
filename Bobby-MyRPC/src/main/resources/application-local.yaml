@@ -1,10 +1,9 @@
 
-myrpc:
-  application:
-    name: 'test'
+brpc:
+  application-name: 'bobby-app'
   zk:
     address: 192.168.160.128:2181
+    session-timeout-ms: 30000  # 必须使用中划线
     retry:
-      base-sleep-time-ms: 1000
+      base-sleep-time-ms: 1000 # 嵌套属性同样规则
       max-retries: 3
-    session-timeout-ms: 30000

@@ -10,9 +10,17 @@
     <file url="file://$PROJECT_DIR$/Bobby-LocalMessage/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-MyRPC/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-Payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-Proxy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-PRC-Comsumer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-RPC-Consumer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-RPC-Provider/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-RPC-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPC-Framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPC-Framework/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-RPC/Bobby-RPC-Client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-RPC/Bobby-RPC-Server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-RPC/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bobby-RPCFramework/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bobby-Thread/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />

@@ -1,7 +1,7 @@
 package com.bobby.myrpc.version8.server;
 
-import com.bobby.myrpc.version8.common.RPCRequest;
-import com.bobby.myrpc.version8.common.RPCResponse;
+import com.bobby.myrpc.version8.common.RpcRequest;
+import com.bobby.myrpc.version8.common.RpcResponse;
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
@@ -27,9 +27,9 @@ public class WorkThread implements Runnable {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             // 读取客户端传过来的request
-            RPCRequest request = (RPCRequest) ois.readObject();
+            RpcRequest request = (RpcRequest) ois.readObject();
             // 反射调用服务方法获得返回值
-            RPCResponse response = getResponse(request);
+            RpcResponse response = getResponse(request);
             //写入到客户端
             oos.writeObject(response);
             oos.flush();
@@ -39,7 +39,7 @@ public class WorkThread implements Runnable {
         }
     }
 
-    private RPCResponse getResponse(RPCRequest request) {
+    private RpcResponse getResponse(RpcRequest request) {
         // 得到服务名
         String interfaceName = request.getInterfaceName();
         // 得到服务端相应服务实现类
@@ -49,11 +49,11 @@ public class WorkThread implements Runnable {
         try {
             method = service.getClass().getMethod(request.getMethodName(), request.getParamsTypes());
             Object invoke = method.invoke(service, request.getParams());
-            return RPCResponse.success(invoke);
+            return RpcResponse.success(invoke);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             System.out.println("方法执行错误");
-            return RPCResponse.fail();
+            return RpcResponse.fail();
         }
     }
 }

@@ -4,26 +4,24 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.beans.ConstructorProperties;
-
 /**
- * 参考 dubbo 通常会用到
- * registry:
- * address: zookeeper://192.168.160.128:2181
+ * @author: Bobby
+ * @email: vividbobby@163.com
+ * @date: 2025/3/30
  */
-@Builder
 @Data
-@ConfigurationProperties(prefix = "myrpc.zk")  // 使用小写字母和中划线风格
+@Builder
+@ConfigurationProperties(prefix = "brpc.zk")
 public class ZkProperties {
-    private String address;  // 对应 yaml 中的 myrpc.zk.address
-    private int sessionTimeoutMs;
+    private String address;  // 直接映射 myrpc.zk.address
+    private int sessionTimeoutMs;  // 自动绑定 session-timeout-ms
     private String namespace;
-    private Retry retry;
+    private Retry retry;    // 嵌套对象
 
     @Data
     @Builder
     public static class Retry {
-        private int maxRetries;
-        private int baseSleepTimeMs;
+        private int maxRetries;      // 绑定 max-retries
+        private int baseSleepTimeMs; // 绑定 base-sleep-time-ms
     }
 }

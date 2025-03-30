@@ -1,7 +1,7 @@
 package com.bobby.myrpc.version8.server;
 
-import com.bobby.myrpc.version8.common.RPCRequest;
-import com.bobby.myrpc.version8.common.RPCResponse;
+import com.bobby.myrpc.version8.common.RpcRequest;
+import com.bobby.myrpc.version8.common.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -14,13 +14,13 @@ import java.lang.reflect.Method;
  * Object类型也行，强制转型就行
  */
 @AllArgsConstructor
-public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RPCRequest> {
+public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
     private ServiceProvider serviceProvider;
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, RPCRequest msg) throws Exception {
-        RPCResponse response = getResponse(msg);
+    protected void channelRead0(ChannelHandlerContext ctx, RpcRequest msg) throws Exception {
+        RpcResponse response = getResponse(msg);
         ctx.writeAndFlush(response);
         ctx.close();
         System.out.println("channel close");
@@ -32,7 +32,7 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RPCReques
         System.out.println("channel close");
     }
 
-    RPCResponse getResponse(RPCRequest request) {
+    RpcResponse getResponse(RpcRequest request) {
         // 得到服务名
         String interfaceName = request.getInterfaceName();
         // 得到服务端相应服务实现类
@@ -42,7 +42,7 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RPCReques
         try {
             method = service.getClass().getMethod(request.getMethodName(), request.getParamsTypes());
             Object invoke = method.invoke(service, request.getParams());
-            return RPCResponse.builder()
+            return RpcResponse.builder()
                     .code(200)
                     .data(invoke)
                     .dataType(invoke.getClass())
@@ -51,7 +51,7 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RPCReques
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             System.out.println("方法执行错误");
-            return RPCResponse.fail();
+            return RpcResponse.fail();
         }
     }
 }

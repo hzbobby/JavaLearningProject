@@ -9,9 +9,12 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-PRC-Comsumer/pom.xml" />
+        <option value="$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-RPC-core/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC/Bobby-RPC-Client/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC/Bobby-RPC-Server/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC/pom.xml" />
+        <option value="$PROJECT_DIR$/Bobby-RPCFramework/pom.xml" />
       </set>
     </option>
   </component>

@@ -13,16 +13,20 @@ public class ServiceProvider {
      */
     private Map<String, Object> interfaceProvider;
 
-    private IServiceRegister serviceRegister;
+    private final IServiceRegister serviceRegister;
     private String host;
     private int port;
 
-    public ServiceProvider(String host, int port) {
+    public ServiceProvider(IServiceRegister serviceRegister) {
+        this.serviceRegister = serviceRegister;
+    }
+
+    public ServiceProvider(IServiceRegister serviceRegister, String host, int port) {
+        this.serviceRegister = serviceRegister;
         // 需要传入服务端自身的服务的网络地址
         this.host = host;
         this.port = port;
         this.interfaceProvider = new HashMap<>();
-        this.serviceRegister = new ZkServiceRegister(null, null);
     }
 
     public void provideServiceInterface(Object service) {

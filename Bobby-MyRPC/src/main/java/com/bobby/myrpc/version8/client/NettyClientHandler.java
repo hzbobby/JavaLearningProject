@@ -1,15 +1,15 @@
 package com.bobby.myrpc.version8.client;
 
-import com.bobby.myrpc.version8.common.RPCResponse;
+import com.bobby.myrpc.version8.common.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
 
-public class NettyClientHandler extends SimpleChannelInboundHandler<RPCResponse> {
+public class NettyClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, RPCResponse msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, RpcResponse msg) throws Exception {
         // 接收到response, 给channel设计别名，让sendRequest里读取response
-        AttributeKey<RPCResponse> key = AttributeKey.valueOf("RPCResponse");
+        AttributeKey<RpcResponse> key = AttributeKey.valueOf("RPCResponse");
         ctx.channel().attr(key).set(msg);
         ctx.channel().close();
     }

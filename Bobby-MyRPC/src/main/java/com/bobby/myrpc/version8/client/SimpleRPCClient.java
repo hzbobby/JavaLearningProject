@@ -1,7 +1,7 @@
 package com.bobby.myrpc.version8.client;
 
-import com.bobby.myrpc.version8.common.RPCRequest;
-import com.bobby.myrpc.version8.common.RPCResponse;
+import com.bobby.myrpc.version8.common.RpcRequest;
+import com.bobby.myrpc.version8.common.RpcResponse;
 import com.bobby.myrpc.version8.register.IServiceRegister;
 import com.bobby.myrpc.version8.register.ZkServiceRegister;
 
@@ -11,19 +11,19 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class SimpleRPCClient implements IRPCClient {
+public class SimpleRPCClient implements IRpcClient {
     private String host;
     private int port;
     private IServiceRegister serviceRegister;
 
     public SimpleRPCClient() {
         // 初始化注册中心，建立连接
-        this.serviceRegister = new ZkServiceRegister(null, null);
+        this.serviceRegister = new ZkServiceRegister(null,null,null);
     }
 
     // 客户端发起一次请求调用，Socket建立连接，发起请求Request，得到响应Response
     // 这里的request是封装好的，不同的service需要进行不同的封装， 客户端只知道Service接口，需要一层动态代理根据反射封装不同的Service
-    public RPCResponse sendRequest(RPCRequest request) {
+    public RpcResponse sendRequest(RpcRequest request) {
         // 从注册中心获取host，port
         InetSocketAddress address = serviceRegister.serviceDiscovery(request.getInterfaceName());
         host = address.getHostName();
@@ -39,7 +39,7 @@ public class SimpleRPCClient implements IRPCClient {
             objectOutputStream.writeObject(request);
             objectOutputStream.flush();
 
-            RPCResponse response = (RPCResponse) objectInputStream.readObject();
+            RpcResponse response = (RpcResponse) objectInputStream.readObject();
 
             //System.out.println(response.getData());
             return response;

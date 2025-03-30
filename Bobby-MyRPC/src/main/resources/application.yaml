@@ -1,2 +1,7 @@
 server:
   port: 8083
+  address: 127.0.0.1
+
+logging:
+  level:
+    com.bobby: debug
