@@ -17,5 +17,4 @@ public @interface RpcService {
      * @return 接口Class对象
      */
     Class<?> interfaceClass() default void.class;
-
 }

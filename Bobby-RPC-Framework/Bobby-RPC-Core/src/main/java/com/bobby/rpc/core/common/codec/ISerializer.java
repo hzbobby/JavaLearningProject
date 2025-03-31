@@ -1,7 +1,5 @@
 package com.bobby.rpc.core.common.codec;
 
-import com.bobby.myrpc.version8.common.codec.JsonSerializer;
-import com.bobby.myrpc.version8.common.codec.ObjectSerializer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
@@ -22,8 +20,8 @@ public interface ISerializer {
     int getType();
 
     // 根据序号取出序列化器，暂时有两种实现方式，需要其它方式，实现这个接口即可
-    static ISerializer getSerializerByCode(int code){
-        switch (code){
+    static ISerializer getSerializerByCode(int code) {
+        switch (code) {
             case 0:
                 return new ObjectSerializer();
             case 1:

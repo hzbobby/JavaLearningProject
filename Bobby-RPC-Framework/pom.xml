@@ -15,6 +15,7 @@
         <module>Bobby-RPC-Provider</module>
         <module>Bobby-RPC-Consumer</module>
         <module>Bobby-RPC-Core</module>
+        <module>Bobby-MyRPC</module>
     </modules>
 
     <properties>
@@ -22,5 +23,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+
+    </dependencies>
 
 </project>

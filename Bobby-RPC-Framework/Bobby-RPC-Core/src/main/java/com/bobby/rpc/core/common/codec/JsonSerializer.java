@@ -2,9 +2,9 @@ package com.bobby.rpc.core.common.codec;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONReader;
-import com.bobby.myrpc.version8.common.RpcRequest;
-import com.bobby.myrpc.version8.common.RpcResponse;
-import com.bobby.myrpc.version8.common.enums.MessageType;
+import com.bobby.rpc.core.common.RpcRequest;
+import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.common.enums.MessageType;
 
 /**
  * 由于json序列化的方式是通过把对象转化成字符串，丢失了Data对象的类信息，所以deserialize需要

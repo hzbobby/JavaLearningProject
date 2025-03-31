@@ -1,9 +1,9 @@
 package com.bobby.rpc.core.common.codec;
 
 
-import com.bobby.myrpc.version8.common.RpcRequest;
-import com.bobby.myrpc.version8.common.RpcResponse;
-import com.bobby.myrpc.version8.common.enums.MessageType;
+import com.bobby.rpc.core.common.RpcRequest;
+import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.common.enums.MessageType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
