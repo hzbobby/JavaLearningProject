@@ -1,6 +1,6 @@
-package com.bobby.rpc.core.config;
+package com.bobby.rpc.core.config.properties;
 
-import lombok.Data;
+import com.bobby.rpc.core.common.enums.SerializableType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -9,8 +9,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date: 2025/3/30
  */
 
-@Data
 @ConfigurationProperties(prefix = "brpc.netty")
 public class NettyProperties {
     int port;
+
+    public int getPort() {
+        return port;
+    }
+    public void setPort(int port) {
+        this.port = port;
+    }
 }

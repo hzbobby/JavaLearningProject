@@ -2,6 +2,7 @@ package com.bobby.rpc.core.client;
 
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.config.properties.NettyProperties;
 import com.bobby.rpc.core.register.IServiceRegister;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

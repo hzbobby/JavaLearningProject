@@ -2,6 +2,7 @@ package com.bobby.rpc.core.common.codec;
 
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.common.enums.MessageType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -19,12 +20,23 @@ public class MyEncode extends MessageToByteEncoder {
     
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
+        log.debug("MyEncode$encode");
+
+        /**
+         * 协议格式：
+         * +----------------+---------------------+------------------+------------------+
+         * |  消息类型        |   序列化方式          |  序列化长度        |  序列化字节       |
+         * |  (2 Byte)      |   (4 Byte)          |  (4 Byte)        |  (变长)          |
+         * +----------------+---------------------+------------------+------------------+
+        **/
+
+
         // 写入消息类型
         if(msg instanceof RpcRequest){
-            out.writeShort(0);
+            out.writeShort(MessageType.REQUEST.getCode());
         }
         else if(msg instanceof RpcResponse){
-            out.writeShort(1);
+            out.writeShort(MessageType.RESPONSE.getCode());
         }
         // 写入序列化方式
         out.writeShort(serializer.getType());

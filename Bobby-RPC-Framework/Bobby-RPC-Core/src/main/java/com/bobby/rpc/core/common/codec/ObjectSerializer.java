@@ -1,5 +1,7 @@
 package com.bobby.rpc.core.common.codec;
 
+import com.bobby.rpc.core.common.enums.SerializableType;
+
 import java.io.*;
 
 public class ObjectSerializer implements ISerializer {
@@ -42,6 +44,6 @@ public class ObjectSerializer implements ISerializer {
     // 0 代表java原生序列化器
     @Override
     public int getType() {
-        return 0;
+        return SerializableType.JDK.getCode();
     }
 }

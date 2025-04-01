@@ -1,7 +1,7 @@
 package com.bobby.rpc.consumer;
 
-import com.bobby.rpc.core.config.BRpcProperties;
-import com.bobby.rpc.core.config.ZkProperties;
+import com.bobby.rpc.core.config.properties.BRpcProperties;
+import com.bobby.rpc.core.config.properties.ZkProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

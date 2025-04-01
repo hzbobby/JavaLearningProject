@@ -1,5 +1,6 @@
 package com.bobby.rpc.core.config;
 
+import com.bobby.rpc.core.config.properties.NettyProperties;
 import com.bobby.rpc.core.server.IRpcServer;
 import com.bobby.rpc.core.server.NettyRPCServer;
 import com.bobby.rpc.core.server.ServiceProvider;
@@ -14,7 +15,6 @@ public class ServerConfig {
     @Bean
     public IRpcServer rpcServer(ServiceProvider serviceProvider, NettyProperties nettyProperties) {
         NettyRPCServer nettyRPCServer = new NettyRPCServer(serviceProvider);
-//        nettyRPCServer.start(serverProperties.getPort());
         nettyRPCServer.start(nettyProperties.getPort());
         return nettyRPCServer;
     }

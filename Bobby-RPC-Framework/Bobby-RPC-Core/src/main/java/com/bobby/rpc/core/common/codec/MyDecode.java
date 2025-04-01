@@ -5,24 +5,27 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 /**
  * 按照自定义的消息格式解码数据
  */
+@Slf4j
 @AllArgsConstructor
 public class MyDecode extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+        log.debug("MyDecode$decode");
         // 1. 读取消息类型
         short messageType = in.readShort();
         // 现在还只支持request与response请求
         if (messageType != MessageType.REQUEST.getCode() &&
                 messageType != MessageType.RESPONSE.getCode()) {
-            System.out.println("暂不支持此种数据");
-            return;
+            log.error("暂不支持此种数据: {}", messageType);
+            throw new RuntimeException("暂不支持此种数据");
         }
         // 2. 读取序列化的类型
         short serializerType = in.readShort();

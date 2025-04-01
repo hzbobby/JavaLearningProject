@@ -1,4 +1,4 @@
-package com.bobby.rpc.core.config;
+package com.bobby.rpc.core.config.properties;
 
 import lombok.Builder;
 import lombok.Data;

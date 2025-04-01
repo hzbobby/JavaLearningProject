@@ -1,5 +1,6 @@
 package com.bobby.rpc.core.server;
 
+import com.bobby.rpc.core.config.properties.NettyProperties;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;

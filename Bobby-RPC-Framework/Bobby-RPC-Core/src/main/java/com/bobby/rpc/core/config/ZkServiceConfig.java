@@ -2,6 +2,9 @@ package com.bobby.rpc.core.config;
 
 import com.bobby.rpc.core.common.loadbalance.ILoadBalance;
 import com.bobby.rpc.core.common.loadbalance.RoundLoadBalance;
+import com.bobby.rpc.core.config.properties.BRpcProperties;
+import com.bobby.rpc.core.config.properties.NettyProperties;
+import com.bobby.rpc.core.config.properties.ZkProperties;
 import com.bobby.rpc.core.prosessor.RpcServiceProcessor;
 import com.bobby.rpc.core.register.IServiceRegister;
 import com.bobby.rpc.core.register.ZkServiceRegister;
