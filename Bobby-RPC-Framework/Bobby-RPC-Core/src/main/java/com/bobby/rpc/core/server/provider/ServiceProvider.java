@@ -1,6 +1,7 @@
 package com.bobby.rpc.core.server.provider;
 
 
+import com.bobby.rpc.core.server.ratelimit.provider.RateLimitProvider;
 import com.bobby.rpc.core.server.register.IServiceRegister;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,12 +17,14 @@ public class ServiceProvider {
     private Map<String, Object> interfaceProvider;
     private final IServiceRegister serviceRegister;
     private final InetSocketAddress socketAddress;
+    private final RateLimitProvider rateLimitProvider;
 
     public ServiceProvider(IServiceRegister serviceRegister, InetSocketAddress socketAddress) {
         this.serviceRegister = serviceRegister;
         // 需要传入服务端自身的服务的网络地址
         this.interfaceProvider = new HashMap<>();
         this.socketAddress = socketAddress;
+        rateLimitProvider = new RateLimitProvider();
         log.debug("服务提供者启动: {}", socketAddress.toString());
     }
 
@@ -44,5 +47,9 @@ public class ServiceProvider {
 
     public Object getService(String interfaceName) {
         return interfaceProvider.get(interfaceName);
+    }
+
+    public RateLimitProvider getRateLimitProvider() {
+        return rateLimitProvider;
     }
 }

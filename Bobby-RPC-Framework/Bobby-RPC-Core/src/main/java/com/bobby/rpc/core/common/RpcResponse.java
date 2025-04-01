@@ -36,6 +36,10 @@ public class RpcResponse implements Serializable {
         return RpcResponse.builder().code(500).message("服务器发生错误").build();
     }
 
+    public static RpcResponse fail(String msg) {
+        return RpcResponse.builder().code(500).message(msg).build();
+    }
+
 //    public Class<?> getDataType() {
 //        return null;
 //    }

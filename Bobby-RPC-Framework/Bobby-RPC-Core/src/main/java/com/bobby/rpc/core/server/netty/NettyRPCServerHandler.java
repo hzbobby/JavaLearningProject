@@ -3,6 +3,7 @@ package com.bobby.rpc.core.server.netty;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
 import com.bobby.rpc.core.server.provider.ServiceProvider;
+import com.bobby.rpc.core.server.ratelimit.IRateLimit;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -34,13 +35,21 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RpcReques
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
-        System.out.println("channel close");
+//        cause.printStackTrace();
+        log.error("exceptionCaught: {}", cause.getMessage());
     }
 
-    RpcResponse getResponse(RpcRequest request) {
+    private RpcResponse getResponse(RpcRequest request) {
         // 得到服务名
         String interfaceName = request.getInterfaceName();
+
+        // version9. 在这里做限流措施
+        IRateLimit rateLimit = serviceProvider.getRateLimitProvider().getRateLimit(interfaceName);
+        if(! rateLimit.getToken()){
+            log.warn("服务: {} 限流!!!", interfaceName);
+            return RpcResponse.fail("服务限流!!!");
+        }
+
         // 得到服务端相应服务实现类
         Object service = serviceProvider.getService(interfaceName);
         // 反射调用方法
