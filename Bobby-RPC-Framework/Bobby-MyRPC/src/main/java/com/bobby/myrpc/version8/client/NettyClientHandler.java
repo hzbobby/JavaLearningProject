@@ -1,6 +1,6 @@
 package com.bobby.myrpc.version8.client;
 
-import com.bobby.myrpc.version8.common.RpcResponse;
+import com.bobby.rpc.core.common.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;

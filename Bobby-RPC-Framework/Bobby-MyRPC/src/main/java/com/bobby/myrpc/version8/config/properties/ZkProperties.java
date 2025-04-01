@@ -1,4 +1,4 @@
-package com.bobby.myrpc.version8.config;
+package com.bobby.myrpc.version8.config.properties;
 
 import lombok.Builder;
 import lombok.Data;

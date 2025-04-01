@@ -1,6 +1,5 @@
-package com.bobby.myrpc.version8.config;
+package com.bobby.myrpc.version8.config.properties;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -9,8 +8,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date: 2025/3/30
  */
 
-@Data
 @ConfigurationProperties(prefix = "brpc.netty")
 public class NettyProperties {
     int port;
+
+    public int getPort() {
+        return port;
+    }
+    public void setPort(int port) {
+        this.port = port;
+    }
 }

@@ -1,9 +1,10 @@
 package com.bobby.myrpc.version8.client;
 
-
-import com.bobby.myrpc.version8.common.RpcRequest;
-import com.bobby.myrpc.version8.common.RpcResponse;
-import com.bobby.myrpc.version8.register.IServiceRegister;
+import com.bobby.rpc.core.client.IRpcClient;
+import com.bobby.rpc.core.client.NettyClientInitializer;
+import com.bobby.rpc.core.common.RpcRequest;
+import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.register.IServiceRegister;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;

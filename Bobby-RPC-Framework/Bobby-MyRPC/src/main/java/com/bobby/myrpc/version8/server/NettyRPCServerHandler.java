@@ -1,7 +1,7 @@
 package com.bobby.myrpc.version8.server;
 
-import com.bobby.myrpc.version8.common.RpcRequest;
-import com.bobby.myrpc.version8.common.RpcResponse;
+import com.bobby.rpc.core.common.RpcRequest;
+import com.bobby.rpc.core.common.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;

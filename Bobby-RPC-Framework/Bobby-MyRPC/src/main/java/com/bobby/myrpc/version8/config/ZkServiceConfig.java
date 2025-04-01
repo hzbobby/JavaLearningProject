@@ -2,10 +2,13 @@ package com.bobby.myrpc.version8.config;
 
 import com.bobby.myrpc.version8.common.loadbalance.ILoadBalance;
 import com.bobby.myrpc.version8.common.loadbalance.RoundLoadBalance;
-import com.bobby.myrpc.version8.prosessor.RpcServiceProcessor;
 import com.bobby.myrpc.version8.register.IServiceRegister;
 import com.bobby.myrpc.version8.register.ZkServiceRegister;
 import com.bobby.myrpc.version8.server.ServiceProvider;
+import com.bobby.rpc.core.config.properties.BRpcProperties;
+import com.bobby.rpc.core.config.properties.NettyProperties;
+import com.bobby.rpc.core.config.properties.ZkProperties;
+import com.bobby.rpc.core.prosessor.RpcServiceProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;

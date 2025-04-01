@@ -25,9 +25,13 @@ public interface ISerializer {
             case 0:
                 return new ObjectSerializer();
             case 1:
-                return new JsonSerializer();
+                return new JacksonSerializer();
+//                return new JsonSerializer();
             default:
-                return null;
+                return new JacksonSerializer();
         }
+    }
+    static ISerializer getDefaultSerializer() {
+        return new JacksonSerializer();
     }
 }

@@ -1,7 +1,7 @@
 package com.bobby.myrpc.version8.prosessor;
 
-import com.bobby.myrpc.version8.common.annotation.RpcService;
 import com.bobby.myrpc.version8.server.ServiceProvider;
+import com.bobby.rpc.core.common.annotation.RpcService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanPostProcessor;

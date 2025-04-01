@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONReader;
 import com.bobby.myrpc.version8.common.RpcRequest;
 import com.bobby.myrpc.version8.common.RpcResponse;
 import com.bobby.myrpc.version8.common.enums.MessageType;
+import com.bobby.myrpc.version8.common.enums.SerializableType;
 
 /**
  * 由于json序列化的方式是通过把对象转化成字符串，丢失了Data对象的类信息，所以deserialize需要
@@ -55,6 +56,6 @@ public class JsonSerializer implements ISerializer {
     // 1 代表着json序列化方式
     @Override
     public int getType() {
-        return 1;
+        return SerializableType.JSON.getCode();
     }
 }
