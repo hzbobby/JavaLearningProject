@@ -1,6 +1,6 @@
-package com.bobby.rpc.core.factory;
+package com.bobby.rpc.core.client.proxy;
 
-import com.bobby.rpc.core.client.IRpcClient;
+import com.bobby.rpc.core.client.rpcClient.IRpcClient;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
 import lombok.RequiredArgsConstructor;
@@ -8,11 +8,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 @Slf4j
-@RequiredArgsConstructor
-public class InvokeHandler implements InvocationHandler {
+public class ClientProxy implements InvocationHandler {
     private final IRpcClient rpcClient;
+
+    public ClientProxy(IRpcClient rpcClient) {
+        this.rpcClient = rpcClient;
+    }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if ("toString".equals(method.getName())) {
@@ -29,5 +34,17 @@ public class InvokeHandler implements InvocationHandler {
         RpcResponse rpcResponse = rpcClient.sendRequest(request);
         log.debug("返回的消息: {}", rpcResponse);
         return rpcResponse.getData();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T createProxy(Class<T> interfaceType, InvocationHandler handler) {
+        if (!interfaceType.isInterface()) {
+            throw new IllegalArgumentException(interfaceType.getName() + " is not an interface");
+        }
+        return (T) Proxy.newProxyInstance(
+                interfaceType.getClassLoader(),
+                new Class<?>[] { interfaceType },
+                handler
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.bobby.rpc.core.common.loadbalance;
+package com.bobby.rpc.core.client.loadbalance;
 
 import java.util.List;
 import java.util.Random;

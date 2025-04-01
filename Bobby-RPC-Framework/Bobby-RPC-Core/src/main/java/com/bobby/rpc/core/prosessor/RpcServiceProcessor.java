@@ -1,7 +1,7 @@
 package com.bobby.rpc.core.prosessor;
 
 import com.bobby.rpc.core.common.annotation.RpcService;
-import com.bobby.rpc.core.server.ServiceProvider;
+import com.bobby.rpc.core.server.provider.ServiceProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanPostProcessor;

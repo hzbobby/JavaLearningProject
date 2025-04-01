@@ -1,4 +1,4 @@
-package com.bobby.rpc.core.factory;
+package com.bobby.rpc.core.client.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;

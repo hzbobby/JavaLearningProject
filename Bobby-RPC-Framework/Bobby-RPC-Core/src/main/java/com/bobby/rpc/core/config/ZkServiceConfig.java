@@ -1,14 +1,14 @@
 package com.bobby.rpc.core.config;
 
-import com.bobby.rpc.core.common.loadbalance.ILoadBalance;
-import com.bobby.rpc.core.common.loadbalance.RoundLoadBalance;
+import com.bobby.rpc.core.client.loadbalance.ILoadBalance;
+import com.bobby.rpc.core.client.loadbalance.RoundLoadBalance;
 import com.bobby.rpc.core.config.properties.BRpcProperties;
 import com.bobby.rpc.core.config.properties.NettyProperties;
 import com.bobby.rpc.core.config.properties.ZkProperties;
 import com.bobby.rpc.core.prosessor.RpcServiceProcessor;
-import com.bobby.rpc.core.register.IServiceRegister;
-import com.bobby.rpc.core.register.ZkServiceRegister;
-import com.bobby.rpc.core.server.ServiceProvider;
+import com.bobby.rpc.core.server.provider.ServiceProvider;
+import com.bobby.rpc.core.server.register.IServiceRegister;
+import com.bobby.rpc.core.server.register.impl.ZkServiceRegister;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
@@ -58,8 +58,8 @@ public class ZkServiceConfig {
     }
 
     @Bean
-    public IServiceRegister serviceRegister(BRpcProperties rpcProperties, ILoadBalance loadBalance, CuratorFramework client) {
-        return new ZkServiceRegister(rpcProperties, loadBalance, client);
+    public IServiceRegister serviceRegister(CuratorFramework client) {
+        return new ZkServiceRegister(client);
     }
 
 

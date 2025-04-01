@@ -1,9 +1,9 @@
 package com.bobby.rpc.core.config;
 
 import com.bobby.rpc.core.config.properties.NettyProperties;
-import com.bobby.rpc.core.server.IRpcServer;
-import com.bobby.rpc.core.server.NettyRPCServer;
-import com.bobby.rpc.core.server.ServiceProvider;
+import com.bobby.rpc.core.server.rpcServer.IRpcServer;
+import com.bobby.rpc.core.server.rpcServer.impl.NettyRPCServer;
+import com.bobby.rpc.core.server.provider.ServiceProvider;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
 package com.bobby.rpc.core.prosessor;
 
 import com.bobby.rpc.core.common.annotation.RpcReference;
-import com.bobby.rpc.core.factory.ProxyFactory;
+import com.bobby.rpc.core.client.proxy.ProxyFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanPostProcessor;

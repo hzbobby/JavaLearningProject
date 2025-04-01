@@ -1,11 +1,12 @@
 package com.bobby.rpc.core.config;
 
 
-import com.bobby.rpc.core.client.IRpcClient;
-import com.bobby.rpc.core.client.NettyRpcClient;
-import com.bobby.rpc.core.factory.InvokeHandler;
+import com.bobby.rpc.core.client.discover.IServiceDiscover;
+import com.bobby.rpc.core.client.rpcClient.impl.NettyRpcClient;
+import com.bobby.rpc.core.client.rpcClient.IRpcClient;
+import com.bobby.rpc.core.client.proxy.InvokeHandler;
 import com.bobby.rpc.core.prosessor.RpcReferenceProcessor;
-import com.bobby.rpc.core.register.IServiceRegister;
+import com.bobby.rpc.core.server.register.IServiceRegister;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,8 +20,8 @@ import java.lang.reflect.InvocationHandler;
 @Configuration
 public class ClientConfig {
     @Bean
-    public IRpcClient rpcClient(IServiceRegister serviceRegister) {
-        NettyRpcClient nettyRpcClient = new NettyRpcClient(serviceRegister);
+    public IRpcClient rpcClient(IServiceDiscover serviceDiscover) {
+        NettyRpcClient nettyRpcClient = new NettyRpcClient(serviceDiscover);
         return nettyRpcClient;
     }
 

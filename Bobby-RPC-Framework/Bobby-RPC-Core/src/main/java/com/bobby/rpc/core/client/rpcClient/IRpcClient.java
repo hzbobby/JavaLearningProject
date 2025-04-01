@@ -1,4 +1,4 @@
-package com.bobby.rpc.core.client;
+package com.bobby.rpc.core.client.rpcClient;
 
 
 import com.bobby.rpc.core.common.RpcRequest;

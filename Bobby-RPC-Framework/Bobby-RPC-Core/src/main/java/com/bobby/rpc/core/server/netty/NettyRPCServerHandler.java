@@ -1,8 +1,8 @@
-package com.bobby.rpc.core.server;
+package com.bobby.rpc.core.server.netty;
 
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
-import com.bobby.rpc.core.register.IServiceRegister;
+import com.bobby.rpc.core.server.provider.ServiceProvider;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;

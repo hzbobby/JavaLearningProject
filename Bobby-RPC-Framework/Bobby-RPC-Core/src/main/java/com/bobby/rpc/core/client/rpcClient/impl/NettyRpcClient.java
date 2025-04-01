@@ -1,9 +1,10 @@
-package com.bobby.rpc.core.client;
+package com.bobby.rpc.core.client.rpcClient.impl;
 
+import com.bobby.rpc.core.client.discover.IServiceDiscover;
+import com.bobby.rpc.core.client.netty.NettyClientInitializer;
+import com.bobby.rpc.core.client.rpcClient.IRpcClient;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
-import com.bobby.rpc.core.config.properties.NettyProperties;
-import com.bobby.rpc.core.register.IServiceRegister;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,7 +24,7 @@ public class NettyRpcClient implements IRpcClient {
     private static final Bootstrap bootstrap;
     private static final EventLoopGroup eventLoopGroup;
     // 通过注入
-    private final IServiceRegister serviceRegister;
+    private final IServiceDiscover serviceDiscover;
 
     // netty客户端初始化，重复使用
     static {
@@ -33,8 +34,8 @@ public class NettyRpcClient implements IRpcClient {
                 .handler(new NettyClientInitializer());
     }
 
-    public NettyRpcClient(IServiceRegister serviceRegister) {
-        this.serviceRegister = serviceRegister;
+    public NettyRpcClient(IServiceDiscover serviceDiscover) {
+        this.serviceDiscover = serviceDiscover;
     }
 
     /**
@@ -43,7 +44,7 @@ public class NettyRpcClient implements IRpcClient {
     @Override
     public RpcResponse sendRequest(RpcRequest request) {
         try {
-            InetSocketAddress address = serviceRegister.serviceDiscovery(request.getInterfaceName());
+            InetSocketAddress address = serviceDiscover.serviceDiscovery(request.getInterfaceName());
             log.debug("RPC$远程服务地址: {}", address);
             ChannelFuture channelFuture = bootstrap.connect(address.getHostName(), address.getPort()).sync();
             Channel channel = channelFuture.channel();
@@ -60,7 +61,7 @@ public class NettyRpcClient implements IRpcClient {
             return rpcResponse;
         } catch (InterruptedException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }
