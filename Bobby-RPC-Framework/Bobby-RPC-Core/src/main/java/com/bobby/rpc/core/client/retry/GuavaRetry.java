@@ -4,15 +4,15 @@ import com.bobby.rpc.core.client.rpcClient.IRpcClient;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
 import com.github.rholder.retry.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class GuavaRetry {
-    private IRpcClient rpcClient;
 
     public RpcResponse sendRequestWithRetry(RpcRequest request, IRpcClient rpcClient) {
-        this.rpcClient=rpcClient;
         Retryer<RpcResponse> retryer = RetryerBuilder.<RpcResponse>newBuilder()
                 //无论出现什么异常，都进行重试
                 .retryIfException()
@@ -25,7 +25,7 @@ public class GuavaRetry {
                 .withRetryListener(new RetryListener() {
                     @Override
                     public <V> void onRetry(Attempt<V> attempt) {
-                        System.out.println("RetryListener: 第" + attempt.getAttemptNumber() + "次调用");
+                        log.debug("重试机制, 第 {} 次重试", attempt.getAttemptNumber());
                     }
                 })
                 .build();

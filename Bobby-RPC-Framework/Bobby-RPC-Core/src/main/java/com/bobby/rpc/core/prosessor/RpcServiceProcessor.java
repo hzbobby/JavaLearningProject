@@ -33,7 +33,7 @@ public class RpcServiceProcessor implements BeanPostProcessor {
         // 获取本应用的 host & port
 //        serviceRegister.register(serviceName, new InetSocketAddress(serverProperties.getAddress(), nettyProperties.getPort()));
 //        serviceRegister.register(serviceName, new InetSocketAddress(serverProperties.getAddress(), serverProperties.getPort()));
-        serviceProvider.provideServiceInterface(bean, interfaceClass);
+//        serviceProvider.provideServiceInterface(bean, interfaceClass);
     }
 
 }

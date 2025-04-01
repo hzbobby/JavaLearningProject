@@ -1,5 +1,6 @@
 package com.bobby.rpc.core.server.register.impl;
 
+import com.bobby.rpc.core.common.constants.ZkConstants;
 import com.bobby.rpc.core.server.register.IServiceRegister;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -15,7 +16,6 @@ public class ZkServiceRegister implements IServiceRegister {
 
     public ZkServiceRegister(CuratorFramework client) {
         this.client = client;
-
         startClient();
     }
 
@@ -35,22 +35,21 @@ public class ZkServiceRegister implements IServiceRegister {
         }
     }
 
-//    private String getServicePath(String serviceName) {
-//        return String.format("/%s/%s", rpcProperties.getApplicationName(), serviceName);
-//    }
-//
-//    private String getInstancePath(String serviceName, String addressName) {
-//        return String.format("/%s/%s/%s", rpcProperties.getApplicationName(), serviceName, addressName);
-//    }
+    private String getServicePath(String serviceName) {
+        return String.format("/%s", serviceName);
+    }
+
+    private String getInstancePath(String serviceName, String addressName) {
+        return String.format("/%s/%s",  serviceName, addressName);
+    }
 
 
     @Override
-    public void register(String serviceName, InetSocketAddress serverAddress) {
+    public void register(String serviceName, InetSocketAddress serverAddress, boolean retryable) {
         if (serviceName == null || serverAddress == null) {
             throw new IllegalArgumentException("Service name and server address cannot be null");
         }
-//        String servicePath = getServicePath(serviceName);
-        String servicePath = serviceName;
+        String servicePath = getServicePath(serviceName);
 
         try {
             // 1. 创建持久化父节点（幂等操作） -- 一般是服务的分类，例如一个服务名
@@ -62,8 +61,7 @@ public class ZkServiceRegister implements IServiceRegister {
             }
 
             // 2. 注册临时节点（允许重复创建，实际会覆盖）-- 一般是具体的实例，服务名下，不同的实例
-            String addressPath = servicePath + "/" + getServiceAddress(serverAddress);
-//            String addressPath = getInstancePath(serviceName, getServiceAddress(serverAddress));
+            String addressPath = getInstancePath(serviceName, getServiceAddress(serverAddress));
             try {
                 client.create()
                         .withMode(CreateMode.EPHEMERAL)
@@ -73,6 +71,12 @@ public class ZkServiceRegister implements IServiceRegister {
                 // 节点已存在说明该实例正常在线，记录调试日志即可
                 log.debug("服务实例已存在（正常心跳）: {}", addressPath);
             }
+
+            // 3. 创建 Retry 节点
+            if(retryable){
+                client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(String.format("/%s/%s", ZkConstants.RETRY, serviceName));
+            }
+
         } catch (Exception e) {
             log.error("服务注册失败: {}", servicePath, e);
             throw new RuntimeException("Failed to register service: " + servicePath, e);

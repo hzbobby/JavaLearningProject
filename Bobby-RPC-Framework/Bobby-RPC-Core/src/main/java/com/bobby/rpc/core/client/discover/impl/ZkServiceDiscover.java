@@ -4,6 +4,7 @@ import com.bobby.rpc.core.client.cache.ServiceCache;
 import com.bobby.rpc.core.client.discover.IServiceDiscover;
 import com.bobby.rpc.core.client.discover.watcher.ZkWatcher;
 import com.bobby.rpc.core.client.loadbalance.ILoadBalance;
+import com.bobby.rpc.core.common.constants.ZkConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.CuratorCache;
@@ -24,16 +25,21 @@ public class ZkServiceDiscover implements IServiceDiscover {
     private CuratorCache curatorCache;
 
 
-    private static final String ROOT_PATH = "BobbyRPC";
-    private static final String RETRY = "CanRetry";
-
-
     public ZkServiceDiscover(CuratorFramework client, ILoadBalance loadBalance) {
         this.client = client;
         this.loadBalance = loadBalance;
+        this.client.start();
         // 开启服务监听
         ZkWatcher zkWatcher = new ZkWatcher(client, serviceCache);
-        zkWatcher.watch(ROOT_PATH);
+        zkWatcher.watch(ZkConstants.ZK_NAMESPACE);
+    }
+
+    private String getServicePath(String serviceName) {
+        return String.format("/%s", serviceName);
+    }
+
+    private String getInstancePath(String serviceName, String addressName) {
+        return String.format("/%s/%s",  serviceName, addressName);
     }
 
     @Override
@@ -41,8 +47,7 @@ public class ZkServiceDiscover implements IServiceDiscover {
         if (serviceName == null) {
             throw new IllegalArgumentException("Service name cannot be null");
         }
-//        String servicePath = getServicePath(serviceName);
-        String servicePath = serviceName;
+        String servicePath = getServicePath(serviceName);
         try {
             // 优先从缓存获取
 //            List<String> instances = serviceCache.get(servicePath);
@@ -75,6 +80,23 @@ public class ZkServiceDiscover implements IServiceDiscover {
             throw new IllegalArgumentException("Invalid address format: " + address);
         }
         return new InetSocketAddress(parts[0], Integer.parseInt(parts[1]));
+    }
+
+    @Override
+    public boolean retryable(String serviceName) {
+        boolean canRetry =false;
+        try {
+            List<String> serviceList = client.getChildren().forPath("/" + ZkConstants.RETRY);
+            for(String s:serviceList){
+                if(s.equals(serviceName)){
+                    log.debug("服务: {} 在白名单上，可以进行重试", serviceName);
+                    canRetry=true;
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return canRetry;
     }
 
 

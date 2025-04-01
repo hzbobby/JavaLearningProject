@@ -33,13 +33,13 @@ public class ZkWatcher {
         // 分别在创建时，改变时，删除时对本地缓存进行改动
         CuratorCacheListener listener = CuratorCacheListener.builder()
                 .forCreates(childData -> handleNodeCreated(childData, parseServiceName(childData)))
-                .forChanges((oldData, newData) -> handleNodeUpdated(newData, parseServiceName(childData)))
-                .forDeletes(childData -> handleNodeDeleted(childData, parseServiceName(childData)))
-                .forInitialized(() -> log.info("监听器初始化完成: {}", parseServiceName(childData)))
+//                .forChanges((oldData, newData) -> handleNodeUpdated(newData, parseServiceName(childData)))
+//                .forDeletes(childData -> handleNodeDeleted(childData, parseServiceName(childData)))
+//                .forInitialized(() -> log.info("监听器初始化完成: {}", parseServiceName(childData)))
                 .build();
 
-        curatorCache.listenable().addListener(listener);
-        curatorCache.start();
+//        curatorCache.listenable().addListener(listener);
+//        curatorCache.start();
 
         log.debug("已创建服务监听");
     }

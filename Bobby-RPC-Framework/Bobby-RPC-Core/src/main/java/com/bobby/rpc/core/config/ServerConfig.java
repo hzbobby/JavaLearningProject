@@ -2,7 +2,7 @@ package com.bobby.rpc.core.config;
 
 import com.bobby.rpc.core.config.properties.NettyProperties;
 import com.bobby.rpc.core.server.rpcServer.IRpcServer;
-import com.bobby.rpc.core.server.rpcServer.impl.NettyRPCServer;
+import com.bobby.rpc.core.server.rpcServer.impl.NettyRpcServer;
 import com.bobby.rpc.core.server.provider.ServiceProvider;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ public class ServerConfig {
 
     @Bean
     public IRpcServer rpcServer(ServiceProvider serviceProvider, NettyProperties nettyProperties) {
-        NettyRPCServer nettyRPCServer = new NettyRPCServer(serviceProvider);
+        NettyRpcServer nettyRPCServer = new NettyRpcServer(serviceProvider);
         nettyRPCServer.start(nettyProperties.getPort());
         return nettyRPCServer;
     }

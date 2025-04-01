@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @AllArgsConstructor
-public class NettyRPCServer implements IRpcServer {
+public class NettyRpcServer implements IRpcServer {
     private final ServiceProvider serviceProvider;
 
     @Override
