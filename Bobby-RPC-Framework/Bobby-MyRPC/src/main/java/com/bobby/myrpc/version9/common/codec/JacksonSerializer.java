@@ -1,0 +1,88 @@
+package com.bobby.myrpc.version9.common.codec;
+
+
+import com.bobby.rpc.core.common.RpcRequest;
+import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.common.enums.MessageType;
+import com.bobby.rpc.core.common.enums.SerializableType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+
+/**
+ * @author: Bobby
+ * @email: vividbobby@163.com
+ * @date: 2025/3/28
+ */
+@Slf4j
+public class JacksonSerializer implements ISerializer {
+    private ObjectMapper objectMapper;
+
+    public JacksonSerializer() {
+        this.objectMapper = new ObjectMapper();
+    }
+
+    @Override
+    public byte[] serialize(Object obj) {
+        try {
+            return objectMapper.writeValueAsBytes(obj);
+        } catch (JsonProcessingException e) {
+            log.error("Json 序列化发生错误: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Object deserialize(byte[] bytes, int messageType) {
+        // 传输的消息分为request与response
+        if (MessageType.REQUEST.getCode() == messageType) {
+            return handleRequest(bytes);
+        } else if (MessageType.RESPONSE.getCode() == messageType) {
+            return handleResponse(bytes);
+        } else {
+            System.out.println("暂时不支持此种消息");
+            throw new RuntimeException();
+        }
+    }
+
+    private Object handleRequest(byte[] bytes) {
+        // 序列化反序列化后，类型擦除了
+        RpcRequest request = null;
+        try {
+            request = objectMapper.readValue(bytes, RpcRequest.class);
+            // Convert JSON strings to corresponding objects
+            for (int i = 0; i < request.getParamsTypes().length; i++) {
+                Class<?> paramsType = request.getParamsTypes()[i];
+                if (!paramsType.isAssignableFrom(request.getParams()[i].getClass())) {
+                    byte[] tmpBytes = objectMapper.writeValueAsBytes(request.getParams()[i]);
+                    request.getParams()[i] = objectMapper.readValue(tmpBytes, paramsType);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return request;
+    }
+    private Object handleResponse(byte[] bytes) {
+        RpcResponse response = null;
+        try {
+            response = objectMapper.readValue(bytes, RpcResponse.class);
+            Class<?> dataType = response.getDataType();
+            if (!dataType.isAssignableFrom(response.getData().getClass())) {
+                byte[] tmpBytes = objectMapper.writeValueAsBytes(response.getData());
+                response.setData(objectMapper.readValue(tmpBytes, dataType));
+//                response.setData(objectMapper.convertValue(response.getData(), dataType));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return response;
+    }
+
+    @Override
+    public int getType() {
+        return SerializableType.JSON.getCode();
+    }
+}
