@@ -1,5 +1,6 @@
 package com.bobby.rpc.core.client;
 
+import com.bobby.rpc.core.client.circuitBreaker.CircuitBreakerProvider;
 import com.bobby.rpc.core.client.discover.IServiceDiscover;
 import com.bobby.rpc.core.client.discover.impl.ZkServiceDiscover;
 import com.bobby.rpc.core.client.loadbalance.RoundLoadBalance;
@@ -31,18 +32,20 @@ public class TestClient {
                 .build();
 
         IServiceDiscover serviceDiscover = new ZkServiceDiscover(client, new RoundLoadBalance());
+        CircuitBreakerProvider circuitBreakerProvider = new CircuitBreakerProvider();
 
         IRpcClient rpcClient=new NettyRpcClient(serviceDiscover);
 
-        ClientProxy clientProxy=new ClientProxy(rpcClient, serviceDiscover);
+        ClientProxy clientProxy=new ClientProxy(rpcClient, serviceDiscover, circuitBreakerProvider);
 
         IDemoService proxy = clientProxy.createProxy(IDemoService.class);
 
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 100; i++) {
             new Thread(()->{
                 try{
                     System.out.println(proxy.sayHello("ProxyClient"));
-                } catch (NullPointerException e){
+                } catch (Exception e){
+                    System.out.println("服务失败");
                     e.printStackTrace();
                 }
             }).start();

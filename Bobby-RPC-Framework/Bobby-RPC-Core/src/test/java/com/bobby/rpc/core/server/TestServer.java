@@ -1,4 +1,4 @@
-package com.bobby.rpc.core;
+package com.bobby.rpc.core.server;
 
 import com.bobby.rpc.core.common.constants.ZkConstants;
 import com.bobby.rpc.core.sample.IDemoService;
