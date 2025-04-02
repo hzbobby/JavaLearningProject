@@ -3,14 +3,19 @@ package com.bobby.rpc.core.client.netty;
 import com.bobby.rpc.core.common.codec.ISerializer;
 import com.bobby.rpc.core.common.codec.MyDecode;
 import com.bobby.rpc.core.common.codec.MyEncode;
+import com.bobby.rpc.core.common.spi.SerializerSpiLoader;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 通过 handler 获取客户端的结果
  */
 public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
+    private String serializer = "json";
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
@@ -30,12 +35,20 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
 //            }
 //        }));
 
+        // version10 加入心跳机制
+        pipeline.addLast(new IdleStateHandler(0, 8, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new HeartbeatHandler());
 
         // 使用自定义的编解码器
         pipeline.addLast(new MyDecode());
         // 编码需要传入序列化器，这里是json，还支持ObjectSerializer，也可以自己实现其他的
-        pipeline.addLast(new MyEncode(ISerializer.getDefaultSerializer()));
+//        pipeline.addLast(new MyEncode(ISerializer.getDefaultSerializer()));
+        pipeline.addLast(new MyEncode(SerializerSpiLoader.getInstance(serializer)));
 
         pipeline.addLast(new NettyClientHandler());
+    }
+
+    public void setSerializer(String serializer) {
+        this.serializer = serializer;
     }
 }

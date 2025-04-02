@@ -1,0 +1,3 @@
+jdk=com.bobby.rpc.core.common.codec.ObjectSerializer#0
+json=com.bobby.rpc.core.common.codec.JsonSerializer#1
+com.bobby.rpc.core.common.codec.KryoSerializer#2

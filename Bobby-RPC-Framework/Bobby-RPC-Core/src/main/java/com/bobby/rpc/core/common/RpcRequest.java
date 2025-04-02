@@ -1,5 +1,6 @@
 package com.bobby.rpc.core.common;
 
+import com.bobby.rpc.core.common.enums.RequestType;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,4 +30,12 @@ public class RpcRequest implements Serializable {
     private Object[] params;
     // 参数类型
     private Class<?>[] paramsTypes;
+
+    // version10. 心跳包类型
+    private RequestType requestType = RequestType.NORMAL;
+
+    public static RpcRequest heartBeat() {
+        System.out.println("心跳包");
+        return RpcRequest.builder().requestType(RequestType.HEARTBEAT).build();
+    }
 }

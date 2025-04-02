@@ -1,7 +1,7 @@
 package com.bobby.myrpc.version8.register;
 
 import com.bobby.myrpc.version8.common.loadbalance.ILoadBalance;
-import com.bobby.rpc.core.config.properties.BRpcProperties;
+import com.bobby.myrpc.version8.config.properties.BRpcProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.ChildData;

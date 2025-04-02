@@ -1,6 +1,8 @@
 package com.bobby.rpc.core.server;
 
-import com.bobby.rpc.core.common.constants.ZkConstants;
+import com.bobby.rpc.core.common.codec.ISerializer;
+import com.bobby.rpc.core.common.spi.SerializerSpiLoader;
+import com.bobby.rpc.core.config.properties.BRpcProperties;
 import com.bobby.rpc.core.sample.IDemoService;
 import com.bobby.rpc.core.sample.impl.DemoServiceImpl;
 import com.bobby.rpc.core.server.provider.ServiceProvider;
@@ -18,18 +20,21 @@ import java.net.InetSocketAddress;
 public class TestServer {
     public static void main(String[] args) {
 
+        BRpcProperties bRpcProperties = BRpcProperties.defaultProperties();
+
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(
-                3000,
-                3
+                bRpcProperties.getZk().getRetry().getBaseSleepTimeMs(),
+                bRpcProperties.getZk().getRetry().getMaxRetries()
         );
 
         CuratorFramework client = CuratorFrameworkFactory.builder()
                 .connectString("192.168.160.128:2181")   // zk 服务地址 host:port
-                .sessionTimeoutMs(5000)
+                .sessionTimeoutMs(bRpcProperties.getZk().getSessionTimeoutMs())
                 .retryPolicy(retryPolicy)
-                .namespace(ZkConstants.ZK_NAMESPACE)
+                .namespace(bRpcProperties.getZk().getNamespace())
                 .build();
 
+        SerializerSpiLoader.loadSpi(ISerializer.class);
 
         IServiceRegister serviceRegister = new ZkServiceRegister(client);
 

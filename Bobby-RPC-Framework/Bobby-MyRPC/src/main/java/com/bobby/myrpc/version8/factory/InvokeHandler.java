@@ -1,8 +1,8 @@
 package com.bobby.myrpc.version8.factory;
 
 import com.bobby.myrpc.version8.client.IRpcClient;
-import com.bobby.rpc.core.common.RpcRequest;
-import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.myrpc.version8.common.RpcRequest;
+import com.bobby.myrpc.version8.common.RpcResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

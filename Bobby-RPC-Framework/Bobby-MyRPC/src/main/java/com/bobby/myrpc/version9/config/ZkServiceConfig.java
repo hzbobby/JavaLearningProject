@@ -1,8 +1,6 @@
 package com.bobby.myrpc.version9.config;
 
 import com.bobby.rpc.core.config.properties.BRpcProperties;
-import com.bobby.rpc.core.config.properties.NettyProperties;
-import com.bobby.rpc.core.config.properties.ZkProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

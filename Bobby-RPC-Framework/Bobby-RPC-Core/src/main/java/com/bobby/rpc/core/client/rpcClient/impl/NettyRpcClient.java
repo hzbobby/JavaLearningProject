@@ -5,6 +5,7 @@ import com.bobby.rpc.core.client.netty.NettyClientInitializer;
 import com.bobby.rpc.core.client.rpcClient.IRpcClient;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.common.codec.ISerializer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,15 +24,19 @@ import java.net.InetSocketAddress;
 public class NettyRpcClient implements IRpcClient {
     private static final Bootstrap bootstrap;
     private static final EventLoopGroup eventLoopGroup;
+    private static final NettyClientInitializer nettyClientInitializer;
+
     // 通过注入
     private final IServiceDiscover serviceDiscover;
 
+
     // netty客户端初始化，重复使用
     static {
+        nettyClientInitializer = new NettyClientInitializer();
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class)
-                .handler(new NettyClientInitializer());
+                .handler(nettyClientInitializer);
     }
 
     public NettyRpcClient(IServiceDiscover serviceDiscover) {
@@ -43,9 +48,12 @@ public class NettyRpcClient implements IRpcClient {
      */
     @Override
     public RpcResponse sendRequest(RpcRequest request) {
+        InetSocketAddress address = serviceDiscover.serviceDiscovery(request.getInterfaceName());
+        log.debug("RPC$远程服务地址: {}", address);
+        if (address == null) {
+            return null;
+        }
         try {
-            InetSocketAddress address = serviceDiscover.serviceDiscovery(request.getInterfaceName());
-            log.debug("RPC$远程服务地址: {}", address);
             ChannelFuture channelFuture = bootstrap.connect(address.getHostName(), address.getPort()).sync();
             Channel channel = channelFuture.channel();
             // 发送数据
@@ -64,4 +72,28 @@ public class NettyRpcClient implements IRpcClient {
         }
         return null;
     }
+
+    public void setSerializer(String serializer) {
+        nettyClientInitializer.setSerializer(serializer);
+    }
+
+    public void close() {
+        // 关闭 netty
+        if(eventLoopGroup != null) {
+//            eventLoopGroup.shutdownGracefully().addListener(future -> {
+//                if (future.isSuccess()) {
+//                    log.info("关闭 Netty 成功");
+//                }else{
+//                    log.info("关闭 Netty 失败");
+//                }
+//            });
+            try {
+                eventLoopGroup.shutdownGracefully().sync();
+            } catch (InterruptedException e) {
+                log.error("关闭 Netty 异常: {}", e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
 }

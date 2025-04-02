@@ -1,6 +1,5 @@
 package com.bobby.myrpc.version9.config;
 
-import com.bobby.rpc.core.config.properties.NettyProperties;
 import com.bobby.rpc.core.server.provider.ServiceProvider;
 import com.bobby.rpc.core.server.rpcServer.IRpcServer;
 import com.bobby.rpc.core.server.rpcServer.impl.NettyRpcServer;

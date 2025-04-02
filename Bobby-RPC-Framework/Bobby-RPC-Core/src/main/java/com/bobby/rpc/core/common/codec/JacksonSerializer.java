@@ -38,6 +38,9 @@ public class JacksonSerializer implements ISerializer {
 
     @Override
     public Object deserialize(byte[] bytes, int messageType) {
+        if (bytes == null || bytes.length == 0) {
+            throw new IllegalArgumentException("Cannot deserialize null or empty byte array");
+        }
         // 传输的消息分为request与response
         if (MessageType.REQUEST.getCode() == messageType) {
             return handleRequest(bytes);
@@ -45,7 +48,7 @@ public class JacksonSerializer implements ISerializer {
             return handleResponse(bytes);
         } else {
             System.out.println("暂时不支持此种消息");
-            throw new RuntimeException();
+            throw new RuntimeException("暂不支持此种类型的消息");
         }
     }
 

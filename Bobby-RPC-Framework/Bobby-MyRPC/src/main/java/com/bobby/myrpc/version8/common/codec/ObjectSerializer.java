@@ -1,6 +1,7 @@
 package com.bobby.myrpc.version8.common.codec;
 
-import com.bobby.rpc.core.common.enums.SerializableType;
+
+import com.bobby.myrpc.version8.common.enums.SerializableType;
 
 import java.io.*;
 

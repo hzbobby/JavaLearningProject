@@ -2,11 +2,15 @@ package com.bobby.rpc.core.common.codec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author: Bobby
  * @email: vividbobby@163.com
  * @date: 2025/3/28
  */
+
 public interface ISerializer {
     // 把对象序列化成字节数组
     byte[] serialize(Object obj) throws JsonProcessingException;
@@ -19,18 +23,35 @@ public interface ISerializer {
     // 0：java自带序列化方式, 1: json序列化方式
     int getType();
 
+
+    // 定义静态常量 serializerMap
+    static final Map<Integer, ISerializer> serializerMap = new HashMap<>();
+
     // 根据序号取出序列化器，暂时有两种实现方式，需要其它方式，实现这个接口即可
     static ISerializer getSerializerByCode(int code) {
-        switch (code) {
-            case 0:
-                return new ObjectSerializer();
-            case 1:
-                return new JacksonSerializer();
-//                return new JsonSerializer();
-            default:
-                return new JacksonSerializer();
+        ISerializer iSerializer = serializerMap.get(code);
+        if (iSerializer == null) {
+            throw new RuntimeException("No serializer registered for code " + code);
+        }
+        return iSerializer;
+    }
+
+    static void registerSerializer(int code, ISerializer serializer) {
+        registerSerializer(code, serializer, false);
+    }
+
+    static void registerSerializer(int code, ISerializer serializer, boolean replace) {
+        if (replace) {
+            serializerMap.put(code, serializer);
+        }else{
+            serializerMap.putIfAbsent(code, serializer);
         }
     }
+
+    static boolean containsSerializer(int code) {
+        return serializerMap.containsKey(code);
+    }
+
     static ISerializer getDefaultSerializer() {
         return new JacksonSerializer();
     }

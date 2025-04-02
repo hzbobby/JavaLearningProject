@@ -18,19 +18,19 @@ import java.lang.reflect.InvocationHandler;
  */
 @Configuration
 public class ClientConfig {
-    @Bean
-    public IRpcClient rpcClient(IServiceRegister serviceRegister) {
-        NettyRpcClient nettyRpcClient = new NettyRpcClient(serviceRegister);
-        return nettyRpcClient;
-    }
-
-    @Bean
-    public InvocationHandler rpcClientInvocationHandler(IRpcClient rpcClient) {
-        return new InvokeHandler(rpcClient);
-    }
-
-    @Bean
-    public RpcReferenceProcessor rpcReferenceProcessor(InvocationHandler rpcClientInvocationHandler) {
-        return new RpcReferenceProcessor(rpcClientInvocationHandler);
-    }
+//    @Bean
+//    public IRpcClient rpcClient(IServiceRegister serviceRegister) {
+//        NettyRpcClient nettyRpcClient = new NettyRpcClient(serviceRegister);
+//        return nettyRpcClient;
+//    }
+//
+//    @Bean
+//    public InvocationHandler rpcClientInvocationHandler(IRpcClient rpcClient) {
+//        return new InvokeHandler(rpcClient);
+//    }
+//
+//    @Bean
+//    public RpcReferenceProcessor rpcReferenceProcessor(InvocationHandler rpcClientInvocationHandler) {
+//        return new RpcReferenceProcessor(rpcClientInvocationHandler);
+//    }
 }
