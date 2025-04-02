@@ -1,11 +1,13 @@
 package com.bobby.rpc.core.client.rpcClient.impl;
 
 import com.bobby.rpc.core.client.discover.IServiceDiscover;
+import com.bobby.rpc.core.client.netty.MDCChannelHandler;
 import com.bobby.rpc.core.client.netty.NettyClientInitializer;
 import com.bobby.rpc.core.client.rpcClient.IRpcClient;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
 import com.bobby.rpc.core.common.codec.ISerializer;
+import com.bobby.rpc.core.common.trace.TraceContext;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -16,6 +18,7 @@ import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 /**
  * 实现RPCClient接口
@@ -48,14 +51,22 @@ public class NettyRpcClient implements IRpcClient {
      */
     @Override
     public RpcResponse sendRequest(RpcRequest request) {
+        //version10
+        Map<String,String> mdcContextMap= TraceContext.getCopy();
+
         InetSocketAddress address = serviceDiscover.serviceDiscovery(request.getInterfaceName());
         log.debug("RPC$远程服务地址: {}", address);
         if (address == null) {
-            return null;
+            log.error("服务发现失败，返回的地址为 null");
+            return RpcResponse.fail("服务发现失败，地址为 null");
         }
         try {
             ChannelFuture channelFuture = bootstrap.connect(address.getHostName(), address.getPort()).sync();
             Channel channel = channelFuture.channel();
+            // version10. 日志
+            // 将当前Trace上下文保存到Channel属性
+            channel.attr(MDCChannelHandler.TRACE_CONTEXT_KEY).set(mdcContextMap);
+
             // 发送数据
             channel.writeAndFlush(request);
             // closeFuture: channel关闭的Future

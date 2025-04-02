@@ -5,9 +5,9 @@ import com.bobby.rpc.core.client.circuitBreaker.CircuitBreakerProvider;
 import com.bobby.rpc.core.client.discover.IServiceDiscover;
 import com.bobby.rpc.core.client.retry.GuavaRetry;
 import com.bobby.rpc.core.client.rpcClient.IRpcClient;
+import com.bobby.rpc.core.trace.interceptor.ClientTraceInterceptor;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationHandler;
@@ -28,9 +28,9 @@ public class ClientProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if ("toString".equals(method.getName())) {
-            return proxy.toString();
-        }
+        // version10 分布式日志
+        ClientTraceInterceptor.beforeInvoke();  // 先记录一些信息
+
         log.debug("走代理类");
         RpcRequest request = RpcRequest.builder()
                 .interfaceName(method.getDeclaringClass().getName())
@@ -76,6 +76,10 @@ public class ClientProxy implements InvocationHandler {
         }
 
         log.debug("返回的消息: {}", response);
+
+        // version10 请求结束，上报日志
+        ClientTraceInterceptor.afterInvoke(method.getName());
+
         return response==null ? null : response.getData();
     }
 

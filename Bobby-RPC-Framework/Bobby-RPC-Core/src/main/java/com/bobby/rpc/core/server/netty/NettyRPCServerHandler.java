@@ -2,8 +2,10 @@ package com.bobby.rpc.core.server.netty;
 
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
+import com.bobby.rpc.core.common.enums.RequestType;
 import com.bobby.rpc.core.server.provider.ServiceProvider;
 import com.bobby.rpc.core.server.ratelimit.IRateLimit;
+import com.bobby.rpc.core.trace.interceptor.ServerTraceInterceptor;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -26,10 +28,20 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RpcReques
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcRequest msg) throws Exception {
         log.debug("NettyServer 接收请求: {}", msg);
-        RpcResponse response = getResponse(msg);
-        ctx.writeAndFlush(response);
+        if(msg.getRequestType().equals(RequestType.HEARTBEAT)){
+            log.info("接收到客户端的心跳包");
+            return;
+        }
+        if(msg.getRequestType().equals(RequestType.NORMAL)){
+            ServerTraceInterceptor.beforeHandle();
+
+            RpcResponse response = getResponse(msg);
+
+            ServerTraceInterceptor.afterHandle(msg.getMethodName());
+
+            ctx.writeAndFlush(response);
+        }
         ctx.close();
-        log.debug("NettyServer 返回响应: {}", response);
         log.debug("NettyServer 关闭连接");
     }
 
@@ -37,6 +49,7 @@ public class NettyRPCServerHandler extends SimpleChannelInboundHandler<RpcReques
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 //        cause.printStackTrace();
         log.error("exceptionCaught: {}", cause.getMessage());
+        ctx.close();
     }
 
     private RpcResponse getResponse(RpcRequest request) {

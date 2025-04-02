@@ -39,6 +39,10 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new IdleStateHandler(0, 8, 0, TimeUnit.SECONDS));
         pipeline.addLast(new HeartbeatHandler());
 
+        // version10 加入日志追踪
+        pipeline.addLast(new MDCChannelHandler());
+
+
         // 使用自定义的编解码器
         pipeline.addLast(new MyDecode());
         // 编码需要传入序列化器，这里是json，还支持ObjectSerializer，也可以自己实现其他的

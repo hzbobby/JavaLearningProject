@@ -38,7 +38,7 @@ public class JsonSerializer implements ISerializer {
         } else if (MessageType.RESPONSE.getCode() == messageType) {
             RpcResponse response = parseObject(bytes, RpcResponse.class);
             Class<?> dataType = response.getDataType();
-            if (!dataType.isAssignableFrom(response.getData().getClass())) {
+            if (response.getData()!=null && !dataType.isAssignableFrom(response.getData().getClass())) {
                 response.setData(JSON.parseObject(JSON.toJSONString(response.getData()), dataType));
             }
             obj = response;

@@ -3,6 +3,7 @@ package com.bobby.rpc.core.common.codec;
 import com.bobby.rpc.core.common.RpcRequest;
 import com.bobby.rpc.core.common.RpcResponse;
 import com.bobby.rpc.core.common.enums.MessageType;
+import com.bobby.rpc.core.common.trace.TraceContext;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -20,7 +21,7 @@ public class MyEncode extends MessageToByteEncoder {
     
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
-        log.debug("MyEncode$encode");
+        log.debug("MyEncode$encode mgs of Type: {}", msg.getClass());
 
         /**
          * 协议格式：
@@ -29,6 +30,15 @@ public class MyEncode extends MessageToByteEncoder {
          * |  (2 Byte)      |   (4 Byte)          |  (4 Byte)        |  (变长)          |
          * +----------------+---------------------+------------------+------------------+
         **/
+
+        // version10. 写入 trace 消息头
+        String traceMsg = String.format("%s;%s", TraceContext.getTraceId(), TraceContext.getSpanId());
+        byte[] traceBytes = traceMsg.getBytes();
+
+        // 写入 traceMsg 长度
+        out.writeInt(traceBytes.length);
+        // 写入 traceMsg
+        out.writeBytes(traceBytes);
 
 
         // 写入消息类型

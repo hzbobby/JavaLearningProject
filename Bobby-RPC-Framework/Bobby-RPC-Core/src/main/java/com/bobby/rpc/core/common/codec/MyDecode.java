@@ -1,6 +1,7 @@
 package com.bobby.rpc.core.common.codec;
 
 import com.bobby.rpc.core.common.enums.MessageType;
+import com.bobby.rpc.core.common.trace.TraceContext;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -19,6 +20,15 @@ public class MyDecode extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         log.debug("MyDecode$decode");
+
+        // version10 trace 日志
+        // 读取 traceMsg
+        int traceMsgLength = in.readInt();
+        byte[] traceBytes = new byte[traceMsgLength];
+        in.readBytes(traceBytes);
+        serializeTraceMsg(traceBytes);
+
+
         // 1. 读取消息类型
         short messageType = in.readShort();
         // 现在还只支持request与response请求
@@ -40,5 +50,12 @@ public class MyDecode extends ByteToMessageDecoder {
         // 用对应的序列化器解码字节数组
         Object deserialize = serializer.deserialize(bytes, messageType);
         out.add(deserialize);
+    }
+
+    private void serializeTraceMsg(byte[] traceByte){
+        String traceMsg=new String(traceByte);
+        String[] msgs=traceMsg.split(";");
+        if(!msgs[0].equals("")) TraceContext.setTraceId(msgs[0]);
+        if(!msgs[1].equals("")) TraceContext.setParentSpanId(msgs[1]);
     }
 }

@@ -80,6 +80,22 @@
             <version>5.6.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.zipkin.zipkin2/zipkin -->
+        <dependency>
+            <groupId>io.zipkin.zipkin2</groupId>
+            <artifactId>zipkin</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-okhttp3</artifactId>
+            <version>3.5.0</version>
+        </dependency>
     </dependencies>
 
 </project>
