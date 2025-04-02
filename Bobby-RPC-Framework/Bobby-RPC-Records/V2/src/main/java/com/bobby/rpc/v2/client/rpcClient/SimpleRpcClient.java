@@ -1,7 +1,7 @@
 package com.bobby.rpc.v2.client.rpcClient;
 
-import com.bobby.rpc.v2.common.RPCRequest;
-import com.bobby.rpc.v2.common.RPCResponse;
+import com.bobby.rpc.v2.common.RpcRequest;
+import com.bobby.rpc.v2.common.RpcResponse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SimpleRpcClient {
-    public static RPCResponse sendRequest(String host, int port, RPCRequest request) {
+    public static RpcResponse sendRequest(String host, int port, RpcRequest request) {
         try {
             Socket socket = new Socket(host, port);
 
@@ -19,7 +19,7 @@ public class SimpleRpcClient {
             // 发送请求
             objectOutputStream.writeObject(request);
             // 获取响应
-            RPCResponse response = (RPCResponse) objectInputStream.readObject();
+            RpcResponse response = (RpcResponse) objectInputStream.readObject();
             return response;
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("SimpleRpcClient, sendRequest Exception: "+e.getMessage());

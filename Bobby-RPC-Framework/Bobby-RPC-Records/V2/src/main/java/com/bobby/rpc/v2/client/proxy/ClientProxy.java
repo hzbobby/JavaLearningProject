@@ -1,8 +1,8 @@
 package com.bobby.rpc.v2.client.proxy;
 
 import com.bobby.rpc.v2.client.rpcClient.SimpleRpcClient;
-import com.bobby.rpc.v2.common.RPCRequest;
-import com.bobby.rpc.v2.common.RPCResponse;
+import com.bobby.rpc.v2.common.RpcRequest;
+import com.bobby.rpc.v2.common.RpcResponse;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -21,14 +21,14 @@ public class ClientProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 代理对象执行每个方法时，都将执行这里的逻辑
         // 我们的目的是，利用这个代理类帮助我构建请求。这样能够有效减少重复的代码
-        RPCRequest request = RPCRequest.builder()
+        RpcRequest request = RpcRequest.builder()
                 .interfaceName(method.getDeclaringClass().getName())
                 .methodName(method.getName())
                 .paramsTypes(method.getParameterTypes())
                 .params(args)
                 .build();
         // 然后将这个请求发送到服务端，并获取响应
-        RPCResponse response = SimpleRpcClient.sendRequest(host, port, request);
+        RpcResponse response = SimpleRpcClient.sendRequest(host, port, request);
         return response.getData();
     }
 

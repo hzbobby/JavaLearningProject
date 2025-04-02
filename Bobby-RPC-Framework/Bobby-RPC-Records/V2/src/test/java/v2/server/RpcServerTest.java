@@ -1,7 +1,7 @@
 package v2.server;
 
-import com.bobby.rpc.v2.common.RPCRequest;
-import com.bobby.rpc.v2.common.RPCResponse;
+import com.bobby.rpc.v2.common.RpcRequest;
+import com.bobby.rpc.v2.common.RpcResponse;
 import com.bobby.rpc.v2.sample.service.impl.UserServiceImpl;
 
 import java.io.IOException;
@@ -28,11 +28,11 @@ public class RpcServerTest {
                         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                         // 这里接受客户端传过来的 通用 请求
                         // 通过反射来解析
-                        RPCRequest rpcRequest = (RPCRequest) ois.readObject();
+                        RpcRequest rpcRequest = (RpcRequest) ois.readObject();
                         Method method = userService.getClass().getMethod(rpcRequest.getMethodName(), rpcRequest.getParamsTypes());
                         Object result = method.invoke(userService, rpcRequest.getParams());
                         // 将结果封装到 Response
-                        RPCResponse response = RPCResponse.builder().data(result).code(200).message("OK").build();
+                        RpcResponse response = RpcResponse.builder().data(result).code(200).message("OK").build();
                         oos.writeObject(response);
                         oos.flush();
                     } catch (IOException e) {
