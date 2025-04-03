@@ -94,4 +94,26 @@ public class ClientProxy implements InvocationHandler {
                 this
         );
     }
+
+    // 方法签名
+
+    // 根据接口名字和方法获取方法签名
+    private String getMethodSignature(String interfaceName, Method method) {
+        // 拼接一个方法
+        // 接口名#方法(方法参数)#返回值
+        StringBuilder sb = new StringBuilder();
+        sb.append(interfaceName).append("#").append(method.getName()).append("(");
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        for (int i = 0; i < parameterTypes.length; i++) {
+            sb.append(parameterTypes[i].getName());
+            if (i < parameterTypes.length - 1) {
+                sb.append(",");
+            } else{
+                sb.append(")");
+            }
+        }
+        sb.append("#");
+        sb.append(method.getReturnType().getName());
+        return sb.toString();
+    }
 }

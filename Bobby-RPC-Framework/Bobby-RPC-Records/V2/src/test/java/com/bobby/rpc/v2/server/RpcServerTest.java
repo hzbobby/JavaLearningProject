@@ -1,4 +1,4 @@
-package v2.server;
+package com.bobby.rpc.v2.server;
 
 import com.bobby.rpc.v2.common.RpcRequest;
 import com.bobby.rpc.v2.common.RpcResponse;

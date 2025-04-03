@@ -1,4 +1,4 @@
-package v2.client;
+package com.bobby.rpc.v2.client;
 
 import cn.hutool.core.util.RandomUtil;
 import com.bobby.rpc.v2.client.proxy.ClientProxy;

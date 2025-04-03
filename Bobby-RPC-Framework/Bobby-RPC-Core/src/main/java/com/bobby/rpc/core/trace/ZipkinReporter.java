@@ -17,9 +17,6 @@ public class ZipkinReporter {
         reporter = AsyncReporter.create(sender);
     }
 
-    private static void InternalOkHttpSender() {
-    }
-
     /**
      * 上报 Span 数据到 Zipkin
      */
@@ -31,13 +28,18 @@ public class ZipkinReporter {
                 .id(spanId)
                 .parentId(parentSpanId)
                 .name(name)
+                .localEndpoint(
+                        zipkin2.Endpoint.newBuilder()
+                                .serviceName(serviceName)
+                                .build()
+                )
                 .timestamp(startTimestamp * 1000) // Zipkin 使用微秒
                 .duration(duration * 1000) // Zipkin 使用微秒
                 .putTag("service",serviceName)
                 .putTag("type",type)
                 .build();
         reporter.report(span);
-        log.info("当前traceId:{}正在上报日志-----",traceId);
+        log.debug("当前traceId:{}正在上报日志-----",traceId);
     }
 
     public static void close() {
