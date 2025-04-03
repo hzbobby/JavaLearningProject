@@ -54,8 +54,9 @@ public class JacksonSerializer implements ISerializer {
         RpcRequest request = null;
         try {
             request = objectMapper.readValue(bytes, RpcRequest.class);
+
             // Convert JSON strings to corresponding objects
-            for (int i = 0; i < request.getParamsTypes().length; i++) {
+            for (int i = 0; request.getParamsTypes()!=null && i < request.getParamsTypes().length; i++) {
                 Class<?> paramsType = request.getParamsTypes()[i];
                 if (!paramsType.isAssignableFrom(request.getParams()[i].getClass())) {
                     byte[] tmpBytes = objectMapper.writeValueAsBytes(request.getParams()[i]);
@@ -63,6 +64,7 @@ public class JacksonSerializer implements ISerializer {
                 }
             }
         } catch (IOException e) {
+            log.error("处理请求字段错误");
             throw new RuntimeException(e);
         }
         return request;
@@ -79,6 +81,7 @@ public class JacksonSerializer implements ISerializer {
 //                response.setData(objectMapper.convertValue(response.getData(), dataType));
             }
         } catch (IOException e) {
+            log.error("处理响应字段错误");
             throw new RuntimeException(e);
         }
         return response;

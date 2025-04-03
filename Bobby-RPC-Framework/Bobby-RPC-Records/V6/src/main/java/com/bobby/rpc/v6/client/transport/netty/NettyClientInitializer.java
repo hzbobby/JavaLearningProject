@@ -1,12 +1,14 @@
 package com.bobby.rpc.v6.client.transport.netty;
 
-import com.bobby.rpc.v6.client.transport.netty.NettyClientHandler;
 import com.bobby.rpc.v6.common.codec.CommonDecode;
 import com.bobby.rpc.v6.common.codec.CommonEncode;
 import com.bobby.rpc.v6.common.codec.serializer.ISerializer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 通过 handler 获取客户端的结果
@@ -31,13 +33,6 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
 //            }
 //        }));
 
-//        // version10 加入心跳机制
-//        pipeline.addLast(new IdleStateHandler(0, 8, 0, TimeUnit.SECONDS));
-//        pipeline.addLast(new HeartbeatHandler());
-//
-//        // version10 加入日志追踪
-//        pipeline.addLast(new MDCChannelHandler());
-
 
         // 使用自定义的编解码器
         pipeline.addLast(new CommonDecode());
@@ -46,5 +41,10 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(new CommonEncode(SerializerSpiLoader.getInstance(serializer)));
 
         pipeline.addLast(new NettyClientHandler());
+
+
+        // v6 心跳机制，使链接存活
+        pipeline.addLast(new IdleStateHandler(0, 8, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new ClientHeartbeatHandler());
     }
 }

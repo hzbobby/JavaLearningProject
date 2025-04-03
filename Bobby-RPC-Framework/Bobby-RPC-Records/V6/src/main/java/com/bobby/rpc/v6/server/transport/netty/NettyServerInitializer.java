@@ -4,10 +4,12 @@ import com.bobby.rpc.v6.common.codec.CommonDecode;
 import com.bobby.rpc.v6.common.codec.CommonEncode;
 import com.bobby.rpc.v6.common.codec.serializer.ISerializer;
 import com.bobby.rpc.v6.server.provider.ServiceProvider;
-import com.bobby.rpc.v6.server.transport.netty.NettyRpcServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 初始化，主要负责序列化的编码解码， 需要解决netty的粘包问题
@@ -46,5 +48,10 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(new CommonEncode(SerializerSpiLoader.getInstance(serializer)));
 
         pipeline.addLast(new NettyRpcServerHandler(serviceProvider));
+
+        // v6 添加心跳机制
+        // 读空闲10s，写空闲20s
+        pipeline.addLast(new IdleStateHandler(10, 20, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new ServerHeartbeatHandler());   // 对 IdelState 事件的处理
     }
 }

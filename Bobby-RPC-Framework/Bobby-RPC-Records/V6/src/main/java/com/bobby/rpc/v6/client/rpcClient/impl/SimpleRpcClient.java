@@ -36,4 +36,9 @@ public class SimpleRpcClient implements IRpcClient {
             return null;
         }
     }
+
+    @Override
+    public void close() {
+
+    }
 }

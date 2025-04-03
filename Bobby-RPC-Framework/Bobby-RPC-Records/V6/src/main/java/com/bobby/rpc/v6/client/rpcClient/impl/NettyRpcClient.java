@@ -73,6 +73,7 @@ public class NettyRpcClient implements IRpcClient {
         return null;
     }
 
+    @Override
     public void close() {
         // 关闭 netty
         if(eventLoopGroup != null) {

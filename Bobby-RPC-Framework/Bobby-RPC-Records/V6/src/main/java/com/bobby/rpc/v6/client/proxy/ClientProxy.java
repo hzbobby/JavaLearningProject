@@ -25,6 +25,7 @@ public class ClientProxy implements InvocationHandler {
                 .methodName(method.getName())
                 .paramsTypes(method.getParameterTypes())
                 .params(args)
+                .type(RpcRequest.RequestType.NORMAL)
                 .build();
         // 然后将这个请求发送到服务端，并获取响应
         // v6. 利用 IRpcClient 对象发送请求

@@ -18,7 +18,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class RpcClientTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(
                 1000,
                 3
@@ -44,7 +44,11 @@ public class RpcClientTest {
         IBlogService blogService = clientProxy.createProxy(IBlogService.class);
 
 
-        for(int i=0; i<10; i++){
+        for(int i=1; i<=100; i++){
+            if(i%30 == 0){
+//                Thread.sleep(21000);
+                ;
+            }
             User user = userService.getUser(RandomUtil.randomLong());
             System.out.println("接受的User: "+ user);
 
@@ -54,5 +58,7 @@ public class RpcClientTest {
                     .useId(RandomUtil.randomLong())
                     .build());
         }
+
+//        rpcClient.close();
     }
 }

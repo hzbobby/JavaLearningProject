@@ -24,15 +24,23 @@ public class NettyRpcServerHandler extends SimpleChannelInboundHandler<RpcReques
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcRequest request) throws Exception {
         log.info("NettyServer 接收请求: {}", request);
-        RpcResponse response = getResponse(request);
-        ctx.writeAndFlush(response);
+        if(request.getType().equals(RpcRequest.RequestType.HEARTBEAT)){
+            log.info("接收到客户端的心跳包");
+//            ctx.flush();
+        }
+        if(request.getType().equals(RpcRequest.RequestType.NORMAL)){
+
+            RpcResponse response = getResponse(request);
+            log.info("返回响应: {}", response);
+            ctx.writeAndFlush(response);
+        }
 //        ctx.close();
 //        log.info("NettyServer 关闭连接");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("exceptionCaught: {}", cause.getMessage());
+        log.error("通信异常: {}", cause.getMessage());
         ctx.close();
     }
 
@@ -58,7 +66,7 @@ public class NettyRpcServerHandler extends SimpleChannelInboundHandler<RpcReques
                     .dataType(dataType)
                     .message("OK")
                     .build();
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException |NullPointerException | InvocationTargetException e) {
             e.printStackTrace();
             return RpcResponse.fail();
         }
