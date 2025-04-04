@@ -42,9 +42,9 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
 
         pipeline.addLast(new NettyClientHandler());
 
-
         // v6 心跳机制，使链接存活
         pipeline.addLast(new IdleStateHandler(0, 8, 0, TimeUnit.SECONDS));
         pipeline.addLast(new ClientHeartbeatHandler());
+
     }
 }

@@ -27,15 +27,15 @@ public class NettyRpcServerHandler extends SimpleChannelInboundHandler<RpcReques
         if(request.getType().equals(RpcRequest.RequestType.HEARTBEAT)){
             log.info("接收到客户端的心跳包");
 //            ctx.flush();
+            return;
         }
         if(request.getType().equals(RpcRequest.RequestType.NORMAL)){
-
             RpcResponse response = getResponse(request);
             log.info("返回响应: {}", response);
             ctx.writeAndFlush(response);
         }
-//        ctx.close();
-//        log.info("NettyServer 关闭连接");
+        ctx.close();
+        log.info("NettyServer 关闭连接");
     }
 
     @Override

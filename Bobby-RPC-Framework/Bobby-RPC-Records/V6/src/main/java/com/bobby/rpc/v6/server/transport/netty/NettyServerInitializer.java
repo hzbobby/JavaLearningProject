@@ -39,6 +39,8 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
 //            }
 //        }));
 
+
+
         // 使用自定义的编解码器
         pipeline.addLast(new CommonDecode());
         // 编码需要传入序列化器，这里是json，还支持ObjectSerializer，也可以自己实现其他的
@@ -53,5 +55,6 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
         // 读空闲10s，写空闲20s
         pipeline.addLast(new IdleStateHandler(10, 20, 0, TimeUnit.SECONDS));
         pipeline.addLast(new ServerHeartbeatHandler());   // 对 IdelState 事件的处理
+
     }
 }

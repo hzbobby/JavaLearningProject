@@ -44,7 +44,7 @@ public class RpcClientTest {
         IBlogService blogService = clientProxy.createProxy(IBlogService.class);
 
 
-        for(int i=1; i<=100; i++){
+        for(int i=1; i<=10; i++){
             if(i%30 == 0){
 //                Thread.sleep(21000);
                 ;
