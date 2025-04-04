@@ -12,12 +12,21 @@
 
     <artifactId>Bobby-RPC-Records</artifactId>
 
+    <modules>
+        <module>V1</module>
+        <module>V2</module>
+        <module>V3</module>
+        <module>V4</module>
+        <module>V5</module>
+        <module>V6</module>
+        <module>V7</module>
+    </modules>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
 
 
 </project>
