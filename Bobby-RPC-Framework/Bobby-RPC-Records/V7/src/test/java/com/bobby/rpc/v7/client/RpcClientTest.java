@@ -1,6 +1,8 @@
 package com.bobby.rpc.v7.client;
 
 import cn.hutool.core.util.RandomUtil;
+import com.bobby.rpc.v7.client.circuitBreaker.CircuitBreaker;
+import com.bobby.rpc.v7.client.circuitBreaker.CircuitBreakerProvider;
 import com.bobby.rpc.v7.client.discover.IServiceDiscover;
 import com.bobby.rpc.v7.client.discover.impl.ZkServiceDiscover;
 import com.bobby.rpc.v7.client.proxy.ClientProxy;
@@ -36,9 +38,11 @@ public class RpcClientTest {
 
         IServiceDiscover serviceDiscover = new ZkServiceDiscover(client, loadBalance);
 
+        CircuitBreakerProvider circuitBreakerProvider = new CircuitBreakerProvider();
+
 //        IRpcClient rpcClient = new SimpleRpcClient("127.0.0.1", 8899);
         IRpcClient rpcClient = new NettyRpcClient(serviceDiscover);
-        ClientProxy clientProxy = new ClientProxy(rpcClient);
+        ClientProxy clientProxy = new ClientProxy(rpcClient, circuitBreakerProvider);
         IUserService userService = clientProxy.createProxy(IUserService.class);
 
         IBlogService blogService = clientProxy.createProxy(IBlogService.class);
