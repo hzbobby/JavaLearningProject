@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+brpc:
+  application-name: user-service
+  watch: true
+  zk:
+    namespace: BobbyRPC
+    address: 192.168.232.129:2181
+    session-timeout-ms: 30000  # 必须使用中划线
+    retry:
+      base-sleep-time-ms: 1000 # 嵌套属性同样规则
+      max-retries: 3
+  netty:
+    port: 9002
+    serializer: json
