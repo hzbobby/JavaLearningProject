@@ -1,8 +1,8 @@
 package com.bobby.rpc.v9.user.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
-import com.bobby.rpc.v9.starter.sample.domain.User;
-import com.bobby.rpc.v9.starter.sample.service.IUserService;
+import com.bobby.rpc.v9.sample.domain.User;
+import com.bobby.rpc.v9.sample.service.IUserService;
 import org.springframework.stereotype.Service;
 
 @Service
