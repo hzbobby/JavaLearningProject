@@ -17,7 +17,6 @@
         <module>Bobby-RPC-Core</module>
         <module>Bobby-MyRPC</module>
         <module>Bobby-RPC-Records</module>
-        <module>Bobby-RPC-Records/V8</module>
     </modules>
 
     <properties>
