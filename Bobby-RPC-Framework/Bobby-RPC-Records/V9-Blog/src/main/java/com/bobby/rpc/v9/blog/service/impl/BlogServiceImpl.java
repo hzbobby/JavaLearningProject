@@ -1,10 +1,12 @@
 package com.bobby.rpc.v9.blog.service.impl;
 
 
+import com.bobby.rpc.v9.common.annotation.RpcService;
 import com.bobby.rpc.v9.sample.domain.Blog;
 import com.bobby.rpc.v9.sample.service.IBlogService;
 import org.springframework.stereotype.Service;
 
+@RpcService
 @Service
 public class BlogServiceImpl implements IBlogService {
     @Override
@@ -16,6 +18,6 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public void addBlog(Blog blog) {
-        System.out.println("插入的 Blog 为："+ blog.toString());
+        System.out.println("插入的 Blog 为：" + blog.toString());
     }
 }

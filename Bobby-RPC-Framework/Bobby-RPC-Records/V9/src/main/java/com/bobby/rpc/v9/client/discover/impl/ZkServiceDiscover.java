@@ -7,6 +7,7 @@ import com.bobby.rpc.v9.client.discover.watcher.ZkWatcher;
 import com.bobby.rpc.v9.common.loadbalance.ILoadBalance;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -25,7 +26,9 @@ public class ZkServiceDiscover implements IServiceDiscover {
         this.client = client;
         this.loadBalance = loadBalance;
 
-        this.client.start();
+        if(!client.getState().equals(CuratorFrameworkState.STARTED)){
+            this.client.start();
+        }
 
         serviceCache = new ServiceCache();
         // v6

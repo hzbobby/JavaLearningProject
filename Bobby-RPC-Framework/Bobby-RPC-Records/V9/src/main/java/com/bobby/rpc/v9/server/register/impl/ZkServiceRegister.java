@@ -4,6 +4,7 @@ package com.bobby.rpc.v9.server.register.impl;
 import com.bobby.rpc.v9.server.register.IServiceRegister;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.zookeeper.CreateMode;
 
 import java.net.InetSocketAddress;
@@ -19,7 +20,10 @@ public class ZkServiceRegister implements IServiceRegister {
     }
 
     private void startClient() {
-        client.start();
+        log.info("Starting client");
+        if(!client.getState().equals(CuratorFrameworkState.STARTED)){
+            client.start();
+        }
         try {
             // 等待连接建立
             client.blockUntilConnected();
@@ -39,7 +43,7 @@ public class ZkServiceRegister implements IServiceRegister {
     }
 
     private String getInstancePath(String serviceName, String addressName) {
-        return String.format("/%s/%s",  serviceName, addressName);
+        return String.format("/%s/%s", serviceName, addressName);
     }
 
 
@@ -72,13 +76,13 @@ public class ZkServiceRegister implements IServiceRegister {
             }
 
             // v8. 创建 Retry 节点
-            if(retryable){
-                if(client.checkExists().forPath(String.format("/%s/%s", "RETRY", serviceName))==null){
+            if (retryable) {
+                if (client.checkExists().forPath(String.format("/%s/%s", "RETRY", serviceName)) == null) {
                     log.info("注册可重试服务: {} -> {}", servicePath, serverAddress);
                     client.create().creatingParentsIfNeeded()
                             .withMode(CreateMode.EPHEMERAL)
                             .forPath(String.format("/%s/%s", "RETRY", serviceName));
-                }else{
+                } else {
                     log.info("重试服务已存在: {} -> {}", servicePath, serverAddress);
                 }
             }

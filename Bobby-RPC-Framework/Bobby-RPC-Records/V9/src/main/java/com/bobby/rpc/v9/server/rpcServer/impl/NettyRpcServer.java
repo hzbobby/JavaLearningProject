@@ -26,34 +26,35 @@ public class NettyRpcServer implements IRpcServer {
         // netty 服务线程组boss负责建立连接， work负责具体的请求
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workGroup = new NioEventLoopGroup();
-        try {
-            // 启动netty服务器
-            ServerBootstrap serverBootstrap = new ServerBootstrap();
+        // 启动netty服务器
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
 
-            // 初始化
-            serverBootstrap
-                    .group(bossGroup, workGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .childHandler(nettyServerInitializer);
-            // 同步阻塞
-            channelFuture = serverBootstrap.bind(port).sync();
-            // 死循环监听
-            channelFuture.channel().closeFuture().sync();
+        // 初始化
+        serverBootstrap
+                .group(bossGroup, workGroup)
+                .channel(NioServerSocketChannel.class)
+                .childHandler(nettyServerInitializer);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            shutdown(bossGroup, workGroup);
-        }
+//        try {
+//            // 同步阻塞
+//            channelFuture = serverBootstrap.bind(port).sync();
+//            // 死循环监听
+//            channelFuture.channel().closeFuture().sync();
+//
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } finally {
+//            shutdown(bossGroup, workGroup);
+//        }
 
-        //        channelFuture = serverBootstrap.bind(port);
-        //        channelFuture.addListener((ChannelFuture future) -> {
-        //            if (future.isSuccess()) {
-        //                log.info("Netty 服务启动 port {}", port);
-        //            } else {
-        //                log.error("Netty 服务启动失败 port {}", port);
-        //            }
-        //        });
+        channelFuture = serverBootstrap.bind(port);
+        channelFuture.addListener((ChannelFuture future) -> {
+            if (future.isSuccess()) {
+                log.info("Netty 服务启动 port {}", port);
+            } else {
+                log.error("Netty 服务启动失败 port {}", port);
+            }
+        });
     }
 
     @Override

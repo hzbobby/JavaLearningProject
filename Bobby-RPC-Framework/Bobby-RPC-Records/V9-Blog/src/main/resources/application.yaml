@@ -14,3 +14,7 @@ brpc:
   netty:
     port: 9001
     serializer: json
+
+logging:
+  level:
+    com.bobby: debug

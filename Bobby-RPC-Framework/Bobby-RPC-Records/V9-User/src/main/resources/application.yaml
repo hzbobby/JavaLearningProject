@@ -14,3 +14,7 @@ brpc:
   netty:
     port: 9002
     serializer: json
+
+logging:
+  level:
+    com.bobby: debug
