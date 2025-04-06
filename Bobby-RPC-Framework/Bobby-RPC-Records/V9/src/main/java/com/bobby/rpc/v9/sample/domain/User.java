@@ -1,4 +1,4 @@
-package com.bobby.rpc.v9.starter.sample.domain;
+package com.bobby.rpc.v9.sample.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
