@@ -10,20 +10,21 @@ import java.lang.reflect.Method;
 public class ShowAspect {
     // 在里面定义 切点 和 切面操作
     @Pointcut("execution(* com.bobby.aspect.shows.*.perform(..))")
-    public void perform() {}
+    public void perform() {
+    }
 
     @Before("perform()")
-    public void performBefore(){
+    public void performBefore() {
         System.out.println("Before perform");
     }
 
     @After("perform()")
-    public void performAfter(){
+    public void performAfter() {
         System.out.println("After perform");
     }
 
     @AfterReturning("perform()")
-    public void performAfterReturning(){
+    public void performAfterReturning() {
         System.out.println("After perform returning");
     }
 
@@ -36,4 +37,5 @@ public class ShowAspect {
         System.out.println("Around after");
         return null;
     }
+
 }

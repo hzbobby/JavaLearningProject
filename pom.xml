@@ -19,6 +19,7 @@
         <module>Bobby-GlobalId</module>
         <module>Bobby-Proxy</module>
         <module>Bobby-RPC-Framework</module>
+        <module>Bobby-SortAlg</module>
     </modules>
 
     <properties>
