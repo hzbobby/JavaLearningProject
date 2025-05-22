@@ -14,6 +14,8 @@
         <option value="$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-PRC-Comsumer/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-RPC-Demo-Server/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC-Framework/Bobby-RPC-core/pom.xml" />
+        <option value="$PROJECT_DIR$/Bobby-RPC-Framework/pom.xml" />
+        <option value="$PROJECT_DIR$/Bobby-RPC-Records/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC/Bobby-RPC-Client/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC/Bobby-RPC-Server/pom.xml" />
         <option value="$PROJECT_DIR$/Bobby-RPC/pom.xml" />
@@ -21,7 +23,7 @@
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="liberica-full-17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="liberica-full-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
